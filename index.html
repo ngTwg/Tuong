@@ -17,7 +17,6 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            /* Nền màu đen */
             background: #000000;
             margin: 0;
             position: relative;
@@ -31,7 +30,7 @@
             transform: translateX(-50%);
             z-index: 1000;
             padding: 8px;
-            background-color: rgba(255, 255, 255, 0.1); /* Nền mờ hơn trên nền đen */
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             display: flex;
             gap: 10px;
@@ -53,7 +52,7 @@
 
         #language-switcher button.active {
             background-color: rgba(255,255,255,0.5);
-            color: #f06292; /* Màu hồng cho text active trên nền đen */
+            color: #f06292;
         }
 
         #central-scene {
@@ -70,7 +69,7 @@
         }
 
         #central-love-message {
-            font-size: 4.5rem; /* Điều chỉnh kích thước nếu tên dài/ngắn */
+            font-size: 4.5rem; 
             font-family: 'Kaushan Script', cursive;
             color: white;
             text-shadow: 0 0 8px #fff, 0 0 15px #f8bbd0, 0 0 25px #e91e63, 1px 1px 5px rgba(0,0,0,0.3);
@@ -89,7 +88,6 @@
             display: flex; 
             align-items: center;
         }
-         /* Xóa #central-emoji-heart style vì không còn emoji */
         
         .central-message-heart {
             position: absolute;
@@ -116,7 +114,7 @@
             perspective: 800px; 
         }
 
-        .love-message { /* Chữ rơi */
+        .love-message { 
             position: absolute;
             color: white; 
             font-weight: 700; 
@@ -344,8 +342,8 @@
 
         // --- Endless Falling Messages ---
         const fallingMessageElements = [];
-        // Tăng số lượng message trong pool để nhiều chữ hơn
-        const numFallingMessagesInPool = 130; 
+        // Tăng số lượng message trong pool để spam nhiều hơn
+        const numFallingMessagesInPool = 180; 
 
         function addPrefixSuffixItems(msgElement) {
             msgElement.querySelectorAll('.prefix-item, .suffix-item').forEach(el => el.remove());
@@ -416,21 +414,22 @@
             if (isInitial) {
                 newTop = Math.random() * screenHeight * 0.9;
             } else {
-                newTop = `-${90 + Math.random() * 180}px`; 
+                // Xuất hiện lại từ vị trí gần đỉnh hơn để spam nhanh hơn
+                newTop = `-${30 + Math.random() * 100}px`; 
             }
             
-            msgElement.rotateX3D = Math.random() * 40 - 20; 
-            msgElement.rotateY3D_initial = Math.random() * 60 - 30; 
+            msgElement.rotateX3D = Math.random() * 30 - 15; // Giảm xoay X
+            msgElement.rotateY3D_initial = Math.random() * 40 - 20; // Giảm xoay Y
             msgElement.rotateY3D_current = msgElement.rotateY3D_initial;
-            msgElement.translateZ3D = Math.random() * 100 - 50; 
-            // Thêm random scale cho từng chữ, ví dụ từ 0.7 đến 1.4
-            msgElement.individualScale = 0.7 + Math.random() * 0.7; 
+            msgElement.translateZ3D = Math.random() * 80 - 40; // Giảm độ sâu Z
+            msgElement.individualScale = 0.75 + Math.random() * 0.6; // Scale đa dạng hơn (0.75 đến 1.35)
 
             msgElement.style.left = `${newLeft}px`;
             msgElement.style.top = isInitial ? `${newTop}px` : newTop; 
 
             msgElement.style.opacity = '1';
-            msgElement.vy = 0.4 + Math.random() * 0.8; 
+            // Tăng tốc độ rơi một chút để spam nhanh hơn
+            msgElement.vy = 0.6 + Math.random() * 1.2; 
             
             addPrefixSuffixItems(msgElement); 
             createHeartsForFallingMessage(msgElement); 
@@ -455,9 +454,8 @@
                 let currentTop = parseFloat(msgElement.style.top);
                 currentTop += msgElement.vy;
 
-                msgElement.rotateY3D_current += 0.1; 
+                msgElement.rotateY3D_current += 0.15; // Tăng nhẹ tốc độ xoay Y
 
-                // Áp dụng individualScale vào transform
                 msgElement.style.transform = `translateY(0px) translateZ(${msgElement.translateZ3D}px) rotateX(${msgElement.rotateX3D}deg) rotateY(${msgElement.rotateY3D_current}deg) scale(${msgElement.individualScale})`;
                 
                 if (currentTop > screenHeight + 70) { 
