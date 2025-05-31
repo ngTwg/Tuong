@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mưa Lời Yêu Thương Vô Tận</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Dancing+Script:wght@700&family=Lobster&family=Pacifico&family=Roboto+Mono&family=Sacramento&family=Great+Vibes&family=Parisienne&family=Cookie&family=Kaushan+Script&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* Nền màu đen */
+            background: #000000;
+            margin: 0;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        #language-switcher {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.1); /* Nền mờ hơn trên nền đen */
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        }
+
+        #language-switcher button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255,255,255,0.2); 
+            color: #ffffff; 
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        #language-switcher button.active {
+            background-color: rgba(255,255,255,0.5);
+            color: #f06292; /* Màu hồng cho text active trên nền đen */
+        }
+
+        #central-scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            z-index: 50;
+        }
+
+        #central-love-message {
+            font-size: 4.5rem; /* Điều chỉnh kích thước nếu tên dài/ngắn */
+            font-family: 'Kaushan Script', cursive;
+            color: white;
+            text-shadow: 0 0 8px #fff, 0 0 15px #f8bbd0, 0 0 25px #e91e63, 1px 1px 5px rgba(0,0,0,0.3);
+            text-align: center;
+            padding: 15px; 
+            background-color: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            transform: translateZ(var(--central-translateZ, -280px)) 
+                       rotateX(var(--central-rotateX, 0deg)) 
+                       rotateY(var(--central-rotateY, 0deg)) 
+                       scale(var(--central-scale, 1));
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+            position: relative;
+            display: flex; 
+            align-items: center;
+        }
+         /* Xóa #central-emoji-heart style vì không còn emoji */
+        
+        .central-message-heart {
+            position: absolute;
+            font-size: 1.6rem; 
+            color: #fce4ec; 
+            opacity: 0;
+            animation: centralHeartBeat 2s infinite, popAndFloatAround 1.8s ease-out forwards;
+            animation-delay: var(--heart-delay);
+            text-shadow: 0 0 5px #fff;
+        }
+        @keyframes centralHeartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        #message-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 100;
+            perspective: 800px; 
+        }
+
+        .love-message { /* Chữ rơi */
+            position: absolute;
+            color: white; 
+            font-weight: 700; 
+            padding: 8px 12px; 
+            opacity: 1; 
+            will-change: transform, opacity, top, left;
+            max-width: 260px; 
+            font-size: 1.1em; 
+            text-align: center;
+            line-height: 1.35;
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffc1e3, 0 0 20px #ffc1e3;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d; 
+        }
+        .love-message .prefix-item,
+        .love-message .suffix-item {
+            display: inline-block;
+            font-size: 1.2em; 
+            opacity: 0;
+            animation: popUpAndFade 1.5s ease-out forwards;
+            animation-fill-mode: forwards; 
+            margin: 0 6px; 
+            text-shadow: 0 0 3px #fff, 0 0 6px #f8bbd0;
+        }
+         .love-message .text-content {
+            display: inline-block; 
+        }
+
+        @keyframes popUpAndFade { 
+            0% { transform: translateY(8px) scale(0.5); opacity: 0; }
+            30% { transform: translateY(-8px) scale(1.1); opacity: 1; }
+            100% { transform: translateY(-20px) scale(0.7); opacity: 0; }
+        }
+        
+        .message-heart-wrapper { 
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 150%; height: 150%; 
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .message-heart { 
+            position: absolute;
+            color: #ff80ab; 
+            font-size: 0.75rem; 
+            opacity: 0;
+            animation: popAndFloatAround 1.8s ease-out forwards; 
+            animation-delay: var(--heart-delay);
+            text-shadow: 0 0 3px #fff; 
+        }
+
+        @keyframes popAndFloatAround {
+            0% { transform: scale(0.3) translateY(0); opacity: 0; }
+            50% { transform: scale(1) translateY(-10px) rotate(15deg); opacity: 0.9; }
+            100% { transform: scale(0.4) translateY(-20px) rotate(-15deg); opacity: 0; }
+        }
+
+        #background-elements-container{ 
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            overflow:hidden;
+            z-index: 1;
+        }
+        .background-heart, .background-bubble { 
+            position: absolute;
+            animation-name: floatUp;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            pointer-events: none;
+            user-select: none;
+            bottom: -60px; 
+            will-change: transform, opacity;
+        }
+        .background-heart {
+            font-size: 1rem;
+            color: rgba(255, 128, 171, 0.3); 
+        }
+        .background-bubble {
+            font-size: 0.8rem; 
+            color: rgba(173, 216, 230, 0.2); 
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.4); opacity: 0; }
+            10%, 90% { opacity: 1; }
+            100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            #central-love-message { font-size: 3.8rem; } 
+            .love-message { font-size: 0.9rem; max-width: 210px; } 
+            .central-message-heart { font-size: 1.3rem; }
+        }
+        @media (max-width: 480px) {
+            #central-love-message { font-size: 2.8rem; } 
+            .love-message { font-size: 0.75rem; max-width: 160px; }
+            .central-message-heart { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="language-switcher">
+        <button data-lang="vi" class="active">Tiếng Việt</button>
+        <button data-lang="en">English</button>
+        <button data-lang="fr">Français</button>
+        <button data-lang="jp">日本語</button>
+        <button data-lang="kr">한국어</button>
+    </div>
+
+    <div id="central-scene">
+        <div id="central-love-message"><span id="central-text-content">LeNgocTuong</span></div>
+    </div>
+
+    <div id="message-container"></div>
+    <div id="background-elements-container"></div>
+
+    <script>
+        const baseRomanticMessages = [
+            { vi: "Em là tất cả!", en: "My everything!", fr: "Mon tout!", jp: "私の全て！", kr: "나의 모든 것!" },
+            { vi: "Yêu em.", en: "Love you.", fr: "Je t'aime.", jp: "愛してる。", kr: "사랑해." },
+            { vi: "Trái tim anh.", en: "My heart.", fr: "Mon cœur.", jp: "私の心。", kr: "내 마음." },
+            { vi: "Ánh dương.", en: "Sunshine.", fr: "Soleil.", jp: "太陽。", kr: "태양." },
+            { vi: "Nhớ em.", en: "Miss you.", fr: "Tu me manques.", jp: "恋しい。", kr: "그리워." },
+            { vi: "Thế giới của anh.", en: "My world.", fr: "Mon monde.", jp: "私の世界。", kr: "나의 세상." },
+            { vi: "Nụ cười đẹp.", en: "Beautiful smile.", fr: "Beau sourire.", jp: "美しい笑顔。", kr: "예쁜 미소." },
+            { vi: "Bên em.", en: "With you.", fr: "Avec toi.", jp: "君と。", kr: "당신과 함께." },
+            { vi: "Định mệnh.", en: "Destiny.", fr: "Destin.", jp: "運命。", kr: "운명." },
+            { vi: "Tình yêu vô tận.", en: "Endless love.", fr: "Amour infini.", jp: "無限の愛。", kr: "끝없는 사랑." },
+            { vi: "Giấc mơ.", en: "My dream.", fr: "Mon rêve.", jp: "私の夢。", kr: "나의 꿈." },
+            { vi: "Không thể thiếu.", en: "Can't be without.", fr: "Indispensable.", jp: "不可欠。", kr: "필수 불가결." },
+            { vi: "Loạn nhịp.", en: "Heart skips.", fr: "Cœur qui bat.", jp: "ドキドキ。", kr: "두근두근." },
+            { vi: "Yêu mọi thứ.", en: "Love all of you.", fr: "J'aime tout.", jp: "全てが好き。", kr: "모든 것을 사랑해." },
+            { vi: "Đến cuối cùng.", en: "Till the end.", fr: "Jusqu'au bout.", jp: "最後まで。", kr: "끝까지." },
+            { vi: "Luôn bên em.", en: "Always with you.", fr: "Toujours avec toi.", jp: "いつも一緒。", kr: "항상 너와 함께." },
+            { vi: "Vì sao của anh.", en: "My star.", fr: "Mon étoile.", jp: "私の星。", kr: "나의 별." },
+            { vi: "Hạnh phúc của anh.", en: "My happiness.", fr: "Mon bonheur.", jp: "私の幸せ。", kr: "나의 행복." },
+            { vi: "Thiên thần.", en: "My angel.", fr: "Mon ange.", jp: "私の天使。", kr: "나의 천사." },
+            { vi: "Tình yêu đích thực.", en: "True love.", fr: "Vrai amour.", jp: "真実の愛。", kr: "진정한 사랑." }
+        ];
+
+        function getExpandedMessages(targetCount) {
+            let expanded = [];
+            while (expanded.length < targetCount) {
+                expanded = expanded.concat(baseRomanticMessages);
+            }
+            for (let i = expanded.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
+            }
+            return expanded.slice(0, targetCount);
+        }
+
+        const romanticMessages = getExpandedMessages(1000); 
+
+        const fonts = [
+            "'Inter', sans-serif", "'Dancing Script', cursive", "'Lobster', cursive", 
+            "'Pacifico', cursive", "'Roboto Mono', monospace", "'Sacramento', cursive", 
+            "'Great Vibes', cursive", "'Parisienne', cursive", "'Cookie', cursive", "'Kaushan Script', cursive"
+        ];
+
+        const centralMessageElement = document.getElementById('central-love-message');
+        const centralTextContentElement = document.getElementById('central-text-content');
+        const messageContainer = document.getElementById('message-container');
+        const backgroundElementsContainer = document.getElementById('background-elements-container'); 
+        const langButtons = document.querySelectorAll('#language-switcher button');
+        
+        let currentLanguage = 'vi';
+        
+        // --- 3D Interaction for Central Message ---
+        let centralRotateX = 0;
+        let centralRotateY = 0;
+        let centralScale = 1;
+        const minCentralScale = 0.7;
+        const maxCentralScale = 1.5;
+        const centralTranslateZ = -280; 
+
+        function updateCentralTransform() {
+            centralMessageElement.style.setProperty('--central-rotateX', `${centralRotateX}deg`);
+            centralMessageElement.style.setProperty('--central-rotateY', `${centralRotateY}deg`);
+            centralMessageElement.style.setProperty('--central-scale', centralScale);
+            centralMessageElement.style.setProperty('--central-translateZ', `${centralTranslateZ}px`);
+        }
+
+        document.body.addEventListener('mousemove', (event) => {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            centralRotateY = ((event.clientX / screenWidth) - 0.5) * 25; 
+            centralRotateX = -(((event.clientY / screenHeight) - 0.5) * 25);
+            updateCentralTransform();
+        });
+
+        document.body.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const scaleAmount = 0.08; 
+            if (event.deltaY < 0) {
+                centralScale = Math.min(maxCentralScale, centralScale + scaleAmount);
+            } else {
+                centralScale = Math.max(minCentralScale, centralScale - scaleAmount);
+            }
+            updateCentralTransform();
+        });
+        
+        function createHeartsForCentralMessage() {
+            centralMessageElement.querySelectorAll('.central-message-heart').forEach(h => h.remove());
+            const numHearts = 8;
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('span');
+                heart.classList.add('central-message-heart');
+                heart.innerHTML = '💖';
+                const angle = (i / numHearts) * Math.PI * 2;
+                const radius = 60 + Math.random()*20;
+                heart.style.left = `${50 + radius * Math.cos(angle)}%`;
+                heart.style.top = `${50 + radius * Math.sin(angle)}%`;
+                heart.style.setProperty('--heart-delay', `${Math.random() * 0.8}s`);
+                centralMessageElement.appendChild(heart);
+            }
+        }
+
+        // --- Endless Falling Messages ---
+        const fallingMessageElements = [];
+        // Tăng số lượng message trong pool để nhiều chữ hơn
+        const numFallingMessagesInPool = 130; 
+
+        function addPrefixSuffixItems(msgElement) {
+            msgElement.querySelectorAll('.prefix-item, .suffix-item').forEach(el => el.remove());
+            const prefixBubble = document.createElement('span');
+            prefixBubble.classList.add('prefix-item');
+            prefixBubble.textContent = '🫧'; 
+            const suffixHeart = document.createElement('span');
+            suffixHeart.classList.add('suffix-item');
+            suffixHeart.textContent = '💕'; 
+            const textContentSpan = msgElement.querySelector('.text-content');
+            if (textContentSpan) {
+                msgElement.insertBefore(prefixBubble, textContentSpan);
+                msgElement.insertBefore(suffixHeart, textContentSpan.nextSibling);
+            } else { 
+                msgElement.insertBefore(prefixBubble, msgElement.firstChild);
+                msgElement.appendChild(suffixHeart);
+            }
+            void prefixBubble.offsetWidth;
+            void suffixHeart.offsetWidth;
+            prefixBubble.style.animation = 'popUpAndFade 1.5s ease-out forwards';
+            suffixHeart.style.animation = 'popUpAndFade 1.5s ease-out 0.2s forwards'; 
+        }
+
+        function createHeartsForFallingMessage(msgElement) {
+            const oldWrapper = msgElement.querySelector('.message-heart-wrapper');
+            if (oldWrapper) oldWrapper.remove();
+            const heartWrapper = document.createElement('div');
+            heartWrapper.classList.add('message-heart-wrapper');
+            const numHearts = 2 + Math.floor(Math.random() * 2); 
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('span');
+                heart.classList.add('message-heart');
+                heart.innerHTML = '❤';
+                const angle = Math.random() * Math.PI * 2;
+                const radius = 30 + Math.random() * 15; 
+                heart.style.left = `${50 + radius * Math.cos(angle)}%`;
+                heart.style.top = `${50 + radius * Math.sin(angle)}%`;
+                heart.style.setProperty('--heart-delay', `${Math.random() * 0.3 + 0.2}s`);
+                heartWrapper.appendChild(heart);
+            }
+            msgElement.appendChild(heartWrapper);
+        }
+        
+        function resetFallingMessage(msgElement, isInitial = false) {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const msgMaxWidthStyle = getComputedStyle(msgElement).maxWidth;
+            const msgEstimatedWidth = msgMaxWidthStyle === 'none' ? 260 : parseFloat(msgMaxWidthStyle); 
+            
+            const messageObj = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
+            
+            let textContentSpan = msgElement.querySelector('.text-content');
+            if (!textContentSpan) {
+                textContentSpan = document.createElement('span');
+                textContentSpan.classList.add('text-content');
+                while (msgElement.firstChild && msgElement.firstChild.nodeType !== Node.ELEMENT_NODE) {
+                     msgElement.removeChild(msgElement.firstChild);
+                }
+                msgElement.appendChild(textContentSpan); 
+            }
+            textContentSpan.textContent = messageObj[currentLanguage] || messageObj['en'];
+            
+            msgElement.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+            
+            const newLeft = Math.random() * (screenWidth - msgEstimatedWidth);
+            let newTop;
+
+            if (isInitial) {
+                newTop = Math.random() * screenHeight * 0.9;
+            } else {
+                newTop = `-${90 + Math.random() * 180}px`; 
+            }
+            
+            msgElement.rotateX3D = Math.random() * 40 - 20; 
+            msgElement.rotateY3D_initial = Math.random() * 60 - 30; 
+            msgElement.rotateY3D_current = msgElement.rotateY3D_initial;
+            msgElement.translateZ3D = Math.random() * 100 - 50; 
+            // Thêm random scale cho từng chữ, ví dụ từ 0.7 đến 1.4
+            msgElement.individualScale = 0.7 + Math.random() * 0.7; 
+
+            msgElement.style.left = `${newLeft}px`;
+            msgElement.style.top = isInitial ? `${newTop}px` : newTop; 
+
+            msgElement.style.opacity = '1';
+            msgElement.vy = 0.4 + Math.random() * 0.8; 
+            
+            addPrefixSuffixItems(msgElement); 
+            createHeartsForFallingMessage(msgElement); 
+        }
+
+        function initFallingMessagesPool() {
+            for (let i = 0; i < numFallingMessagesInPool; i++) {
+                const msgElement = document.createElement('div');
+                msgElement.classList.add('love-message');
+                const textContentSpan = document.createElement('span');
+                textContentSpan.classList.add('text-content');
+                msgElement.appendChild(textContentSpan);
+                messageContainer.appendChild(msgElement); 
+                resetFallingMessage(msgElement, true); 
+                fallingMessageElements.push(msgElement);
+            }
+        }
+
+        function animateFallingMessages() {
+            const screenHeight = window.innerHeight;
+            fallingMessageElements.forEach(msgElement => {
+                let currentTop = parseFloat(msgElement.style.top);
+                currentTop += msgElement.vy;
+
+                msgElement.rotateY3D_current += 0.1; 
+
+                // Áp dụng individualScale vào transform
+                msgElement.style.transform = `translateY(0px) translateZ(${msgElement.translateZ3D}px) rotateX(${msgElement.rotateX3D}deg) rotateY(${msgElement.rotateY3D_current}deg) scale(${msgElement.individualScale})`;
+                
+                if (currentTop > screenHeight + 70) { 
+                    resetFallingMessage(msgElement, false); 
+                } else {
+                    msgElement.style.top = `${currentTop}px`;
+                }
+            });
+            requestAnimationFrame(animateFallingMessages);
+        }
+
+        function updateMessageLanguages() {
+            centralTextContentElement.textContent = "LeNgocTuong";
+
+            fallingMessageElements.forEach(msgElement => {
+                const messageObj = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
+                const textContentSpan = msgElement.querySelector('.text-content');
+                if (textContentSpan) {
+                    textContentSpan.textContent = messageObj[currentLanguage] || messageObj['en'];
+                }
+                const prefixItem = msgElement.querySelector('.prefix-item');
+                const suffixItem = msgElement.querySelector('.suffix-item');
+                if (prefixItem) {
+                    prefixItem.style.animation = 'none'; void prefixItem.offsetWidth; 
+                    prefixItem.style.animation = 'popUpAndFade 1.5s ease-out forwards';
+                }
+                if (suffixItem) {
+                    suffixItem.style.animation = 'none'; void suffixItem.offsetWidth; 
+                    suffixItem.style.animation = 'popUpAndFade 1.5s ease-out 0.2s forwards';
+                }
+            });
+        }
+
+        function createBackgroundElements() { 
+            backgroundElementsContainer.innerHTML = '';
+            const numHearts = 90; 
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('span');
+                heart.classList.add('background-heart');
+                heart.innerHTML = Math.random() < 0.7 ? '💖' : '💕'; 
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.fontSize = `${0.7 + Math.random() * 1.3}rem`; 
+                heart.style.animationDuration = `${6 + Math.random() * 9}s`; 
+                heart.style.animationDelay = `${Math.random() * 11}s`;
+                backgroundElementsContainer.appendChild(heart);
+            }
+
+            const numBubbles = 70; 
+            for (let i = 0; i < numBubbles; i++) {
+                const bubble = document.createElement('span');
+                bubble.classList.add('background-bubble');
+                bubble.textContent = '🫧'; 
+                bubble.style.left = `${Math.random() * 100}vw`;
+                bubble.style.fontSize = `${0.6 + Math.random() * 0.9}rem`;
+                bubble.style.animationDuration = `${7 + Math.random() * 8}s`; 
+                bubble.style.animationDelay = `${Math.random() * 13}s`; 
+                backgroundElementsContainer.appendChild(bubble);
+            }
+        }
+
+        langButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                currentLanguage = button.dataset.lang;
+                langButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                updateMessageLanguages();
+            });
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                fallingMessageElements.forEach(msgElement => {
+                    resetFallingMessage(msgElement, true); 
+                });
+            }, 300);
+        });
+
+        window.addEventListener('load', () => {
+            updateCentralTransform(); 
+            createHeartsForCentralMessage();
+            
+            initFallingMessagesPool(); 
+            requestAnimationFrame(animateFallingMessages); 
+
+            createBackgroundElements(); 
+            
+            centralTextContentElement.textContent = "LeNgocTuong";
+        });
+
+    </script>
+</body>
+</html>
