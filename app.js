@@ -12,15 +12,24 @@ const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 const contactForm = document.getElementById('contact-form');
+const contactFormStatus = document.getElementById('contact-form-status');
+const testimonialSlider = document.getElementById('testimonial-slider');
 const testimonialItems = document.querySelectorAll('.testimonial-item');
 const navDots = document.querySelectorAll('.nav-dot');
-const downloadCvBtn = document.getElementById('download-cv');
-const contactBtn = document.getElementById('contact-btn');
+const addTestimonialBtn = document.getElementById('add-testimonial-btn');
+const testimonialModal = document.getElementById('testimonial-modal');
+const closeBtn = testimonialModal.querySelector('.close-btn');
+const testimonialForm = document.getElementById('testimonial-form');
+const testimonialFormStatus = document.getElementById('testimonial-form-status');
+
+// --- GOOGLE APPS SCRIPT URLS ---
+// BẠN CẦN THAY THẾ CÁC URL DƯỚI ĐÂY BẰNG URL DEPLOYMENT CỦA GOOGLE APPS SCRIPT CỦA BẠN
+const CONTACT_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_FOR_CONTACTS';
+const TESTIMONIAL_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_FOR_TESTIMONIALS';
 
 // Global Variables
 let currentTestimonial = 0;
 let isLoading = true;
-// Check for saved theme in localStorage or system preference
 let isDarkMode = localStorage.getItem('theme') === 'dark' || 
                  (localStorage.getItem('theme') === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
@@ -30,62 +39,30 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initApp() {
-    // Hide loading screen after everything is loaded
     window.addEventListener('load', () => {
         loadingScreen.classList.add('hidden');
         isLoading = false;
-        // Trigger animations once loaded
         animateOnScroll();
         startTypingEffect();
     });
-
-    // Setup all event listeners
     setupEventListeners();
-
-    // Set initial theme
     updateTheme(isDarkMode);
-
-    // Set initial active nav link
     updateActiveNavLink();
-    
-    // Animate testimonials
     showTestimonial(currentTestimonial);
     setInterval(() => {
-        currentTestimonial = (currentTestimonial + 1) % testimonialItems.length;
+        currentTestimonial = (currentTestimonial + 1) % testimonialSlider.children.length;
         showTestimonial(currentTestimonial);
     }, 5000);
-
-    // Init Particles.js
-    if(document.getElementById('particles-js')) {
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
-                "color": { "value": "#888888" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.5, "random": false },
-                "size": { "value": 3, "random": true },
-                "line_linked": { "enable": true, "distance": 150, "color": "#888888", "opacity": 0.4, "width": 1 },
-                "move": { "enable": true, "speed": 4, "direction": "none", "random": false, "straight": false, "out_mode": "out" }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
-                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
-            },
-            "retina_detect": true
-        });
-    }
+    initParticles();
 }
 
 function setupEventListeners() {
-    // Scroll events
     window.addEventListener('scroll', () => {
         handleScroll();
         animateOnScroll();
         updateActiveNavLink();
     });
 
-    // Theme toggle
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             isDarkMode = !isDarkMode;
@@ -94,7 +71,6 @@ function setupEventListeners() {
         });
     }
 
-    // Hamburger menu
     if (hamburger) {
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
@@ -102,13 +78,11 @@ function setupEventListeners() {
         });
     }
 
-    // Close menu when a link is clicked
     navLinks.forEach(link => link.addEventListener('click', () => {
         hamburger.classList.remove('active');
         navMenu.classList.remove('active');
     }));
 
-    // Testimonial navigation
     navDots.forEach(dot => {
         dot.addEventListener('click', (e) => {
             const slideIndex = parseInt(e.target.dataset.slide);
@@ -116,80 +90,54 @@ function setupEventListeners() {
         });
     });
 
-    // Contact form submission
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Basic validation
-            const name = this.querySelector('#name').value.trim();
-            const email = this.querySelector('#email').value.trim();
-            const message = this.querySelector('#message').value.trim();
-
-            if (name === '' || email === '' || message === '' || !isValidEmail(email)) {
-                alert('Vui lòng điền đầy đủ và chính xác thông tin.');
-                return;
-            }
-            // In a real application, this would send the form data to a server
-            alert('Tin nhắn của bạn đã được gửi! Chúng tôi sẽ liên hệ lại sớm nhất có thể.');
-            contactForm.reset();
-        });
+        contactForm.addEventListener('submit', handleFormSubmit);
     }
     
-    // Ripple effect on buttons
+    if (addTestimonialBtn) {
+        addTestimonialBtn.addEventListener('click', () => testimonialModal.classList.add('show'));
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => testimonialModal.classList.remove('show'));
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target == testimonialModal) {
+            testimonialModal.classList.remove('show');
+        }
+    });
+
+    if (testimonialForm) {
+        testimonialForm.addEventListener('submit', handleFormSubmit);
+    }
+
     document.querySelectorAll('.ripple-effect').forEach(button => {
-        button.addEventListener('click', function(e) {
-            const x = e.clientX - e.target.getBoundingClientRect().left;
-            const y = e.clientY - e.target.getBoundingClientRect().top;
-            
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
+        button.addEventListener('click', createRipple);
     });
 }
 
 function handleScroll() {
-    // Navbar scroll effect
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-
-    // Back to top button visibility
-    if (window.scrollY > 300) {
-        backToTopBtn.classList.add('show');
-    } else {
-        backToTopBtn.classList.remove('show');
-    }
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+    backToTopBtn.classList.toggle('show', window.scrollY > 300);
     backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Scroll progress bar
     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrollTop = document.documentElement.scrollTop;
-    const progress = (scrollTop / scrollHeight) * 100;
-    progressBar.style.width = progress + '%';
+    progressBar.style.width = `${(window.scrollY / scrollHeight) * 100}%`;
 }
 
 function animateOnScroll() {
     if (isLoading) return;
 
-    // Animate skill bars
     skillProgressBars.forEach(bar => {
+        const skillPercent = bar.querySelector('.skill-percent');
         if (isElementInViewport(bar) && !bar.classList.contains('animated')) {
             bar.style.width = bar.dataset.progress;
+            animateNumber(skillPercent, bar.dataset.progress.replace('%', ''), '%');
             bar.classList.add('animated');
         }
     });
 
-    // Animate stat numbers
     statNumbers.forEach(number => {
         if (isElementInViewport(number) && !number.classList.contains('animated')) {
             animateNumber(number, number.dataset.target);
@@ -201,105 +149,145 @@ function animateOnScroll() {
 function updateTheme(isDark) {
     document.documentElement.setAttribute('data-color-scheme', isDark ? 'dark' : 'light');
     if(themeIcon) {
-        themeIcon.classList.replace(isDark ? 'fa-sun' : 'fa-moon', isDark ? 'fa-moon' : 'fa-sun');
+        themeIcon.className = `fas ${isDark ? 'fa-moon' : 'fa-sun'}`;
     }
 }
 
 function updateActiveNavLink() {
     let currentSection = '';
-    const sections = document.querySelectorAll('main section');
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.scrollY >= sectionTop - navbar.clientHeight - 5) {
-            currentSection = section.getAttribute('id');
+    document.querySelectorAll('main section').forEach(section => {
+        if (window.scrollY >= section.offsetTop - navbar.clientHeight - 5) {
+            currentSection = section.id;
         }
     });
-
     navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').substring(1) === currentSection) {
-            link.classList.add('active');
-        }
+        link.classList.toggle('active', link.getAttribute('href').substring(1) === currentSection);
     });
 }
 
-
 function startTypingEffect() {
-    const words = ["Full Stack Developer.", "UI/UX Designer.", "Problem Solver."];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    const words = ["Full Stack Developer.", "AI Specialist.", "Problem Solver."];
+    let wordIndex = 0, charIndex = 0, isDeleting = false;
 
     function type() {
         const currentWord = words[wordIndex];
         const cursorSpan = '<span class="typing-cursor">|</span>';
-
-        if (isDeleting) {
-            typingText.innerHTML = currentWord.substring(0, charIndex - 1) + cursorSpan;
-            charIndex--;
-        } else {
-            typingText.innerHTML = currentWord.substring(0, charIndex + 1) + cursorSpan;
-            charIndex++;
-        }
+        charIndex += isDeleting ? -1 : 1;
+        typingText.innerHTML = currentWord.substring(0, charIndex) + cursorSpan;
+        let typeSpeed = isDeleting ? 100 : 150;
 
         if (!isDeleting && charIndex === currentWord.length) {
-            setTimeout(() => isDeleting = true, 2000);
+            typeSpeed = 2000;
+            isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             wordIndex = (wordIndex + 1) % words.length;
         }
-
-        const typeSpeed = isDeleting ? 100 : 150;
         setTimeout(type, typeSpeed);
     }
-    type();
+    if (typingText) type();
 }
 
 function showTestimonial(index) {
-    testimonialItems.forEach((item, i) => {
-        item.classList.remove('active');
-        if (i === index) {
-            item.classList.add('active');
-        }
-    });
-    navDots.forEach((dot, i) => {
-        dot.classList.remove('active');
-        if (i === index) {
-            dot.classList.add('active');
-        }
-    });
+    const allItems = testimonialSlider.children;
+    Array.from(allItems).forEach((item, i) => item.classList.toggle('active', i === index));
+    navDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
     currentTestimonial = index;
+}
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const statusEl = form.id === 'contact-form' ? contactFormStatus : testimonialFormStatus;
+    const url = form.id === 'contact-form' ? CONTACT_SCRIPT_URL : TESTIMONIAL_SCRIPT_URL;
+
+    // Check if the placeholder URL is still being used
+    if (url.includes('YOUR_GOOGLE_APPS_SCRIPT_URL')) {
+        showFormStatus(statusEl, 'Lỗi: Vui lòng cấu hình URL của Google Apps Script trong file app.js.', 'error');
+        return;
+    }
+    
+    showFormStatus(statusEl, 'Đang gửi...', 'loading');
+    const formData = new FormData(form);
+
+    fetch(url, { method: 'POST', body: formData})
+      .then(response => response.json())
+      .then(data => {
+        if(data.result === 'success') {
+            showFormStatus(statusEl, 'Gửi thành công! Cảm ơn bạn.', 'success');
+            form.reset();
+            if(form.id === 'testimonial-form') {
+                 setTimeout(() => testimonialModal.classList.remove('show'), 2000);
+                 // Optionally, you can dynamically add the new testimonial here
+            }
+        } else {
+            throw new Error(data.message || 'Có lỗi xảy ra.');
+        }
+      }).catch(error => {
+        showFormStatus(statusEl, `Lỗi: ${error.message}`, 'error');
+      });
+}
+
+function showFormStatus(element, message, type) {
+    element.style.display = 'block';
+    element.className = type; // 'success' or 'error'
+    element.textContent = message;
+    if(type === 'success' || type === 'error'){
+        setTimeout(() => { element.style.display = 'none'; }, 5000);
+    }
+}
+
+function createRipple(e) {
+    const button = e.currentTarget;
+    const circle = document.createElement("span");
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${e.clientX - button.offsetLeft - radius}px`;
+    circle.style.top = `${e.clientY - button.offsetTop - radius}px`;
+    circle.classList.add("ripple");
+    const ripple = button.getElementsByClassName("ripple")[0];
+    if (ripple) { ripple.remove(); }
+    button.appendChild(circle);
+}
+
+function initParticles() {
+    if(document.getElementById('particles-js')) {
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "bubble" }, "resize": true }, "modes": { "bubble": { "distance": 200, "size": 6, "duration": 2, "opacity": 0.8 } } },
+            "retina_detect": true
+        });
+    }
 }
 
 // Utility functions
 function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+    return rect.top < window.innerHeight && rect.bottom >= 0;
 }
 
-function animateNumber(element, target) {
+function animateNumber(element, target, suffix = '') {
     let current = 0;
     const targetNum = parseInt(target);
-    const increment = targetNum / 100;
+    const step = Math.max(1, Math.ceil(targetNum / 100));
 
     function update() {
-        current += increment;
+        current += step;
         if (current < targetNum) {
-            element.innerText = Math.ceil(current);
+            element.innerText = current + suffix;
             requestAnimationFrame(update);
         } else {
-            element.innerText = targetNum;
+            element.innerText = targetNum + suffix;
         }
     }
     update();
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
 }
