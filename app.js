@@ -10,9 +10,13 @@ const typingText = document.getElementById('typing-text');
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
+const contactForm = document.getElementById('contact-form');
+const newsletterForm = document.getElementById('newsletter-form');
 const testimonialItems = document.querySelectorAll('.testimonial-item');
 const navDots = document.querySelectorAll('.nav-dot');
 const downloadCvBtn = document.getElementById('download-cv');
+const contactBtn = document.getElementById('contact-btn');
+const portfolioBtns = document.querySelectorAll('.portfolio-overlay .btn');
 
 // Global Variables
 let currentTestimonial = 0;
@@ -134,8 +138,10 @@ window.addEventListener('load', function() {
 function startAnimations() {
     // Start typing animation
     typeWriter();
+    
     // Start stat counter animation
     animateStatNumbers();
+    
     // Check for elements in viewport
     checkElementsInViewport();
 }
@@ -160,20 +166,20 @@ window.addEventListener('scroll', function() {
     } else {
         navbar.classList.remove('scrolled');
     }
-
+    
     // Update progress bar
     const scrollPosition = window.scrollY;
     const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollPercentage = (scrollPosition / documentHeight) * 100;
     progressBar.style.width = scrollPercentage + '%';
-
+    
     // Show/hide back to top button
     if (scrollPosition > 300) {
         backToTopBtn.classList.add('show');
     } else {
         backToTopBtn.classList.remove('show');
     }
-
+    
     // Check elements in viewport for animations
     if (!isLoading) {
         checkElementsInViewport();
@@ -197,8 +203,8 @@ themeIcon.parentElement.addEventListener('click', function() {
         document.documentElement.setAttribute('data-color-scheme', 'dark');
         themeIcon.classList.replace('fa-sun', 'fa-moon');
     }
-
     isDarkMode = !isDarkMode;
+    
     // Update particles color
     if (window.pJSDom && window.pJSDom[0]) {
         window.pJSDom[0].pJS.particles.color.value = isDarkMode ? '#32b8c6' : '#21808d';
@@ -227,10 +233,20 @@ navLinks.forEach(link => {
         e.preventDefault();
         const targetId = this.getAttribute('href');
         const targetElement = document.querySelector(targetId);
+        
         window.scrollTo({
             top: targetElement.offsetTop - 80,
             behavior: 'smooth'
         });
+    });
+});
+
+// Contact button scroll to contact section
+contactBtn.addEventListener('click', function() {
+    const contactSection = document.getElementById('contact');
+    window.scrollTo({
+        top: contactSection.offsetTop - 80,
+        behavior: 'smooth'
     });
 });
 
@@ -241,6 +257,13 @@ downloadCvBtn.addEventListener('click', function() {
     alert('CV tải xuống sẽ bắt đầu trong ứng dụng thực tế');
 });
 
+// Portfolio buttons
+portfolioBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        alert('Chi tiết dự án sẽ hiển thị trong ứng dụng thực tế');
+    });
+});
+
 // Animate stat numbers
 function animateStatNumbers() {
     statNumbers.forEach(statNumber => {
@@ -248,7 +271,7 @@ function animateStatNumbers() {
         const duration = 2000; // in milliseconds
         const increment = target / (duration / 50); // update every 50ms
         let current = 0;
-
+        
         const updateCount = () => {
             if (current < target) {
                 current += increment;
@@ -258,7 +281,7 @@ function animateStatNumbers() {
                 statNumber.textContent = target;
             }
         };
-
+        
         updateCount();
     });
 }
@@ -279,7 +302,7 @@ function checkElementsInViewport() {
             element.classList.add('show');
         }
     });
-
+    
     // Animate skill bars
     skillProgressBars.forEach(progressBar => {
         if (isInViewport(progressBar.parentElement.parentElement)) {
@@ -295,6 +318,7 @@ function showTestimonial(index) {
         item.classList.remove('active');
         navDots[i].classList.remove('active');
     });
+    
     testimonialItems[index].classList.add('active');
     navDots[index].classList.add('active');
     currentTestimonial = index;
@@ -313,16 +337,75 @@ setInterval(function() {
     showTestimonial(currentTestimonial);
 }, 5000);
 
+// Form validation and submission
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic validation
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
+        let isValid = true;
+        
+        if (name === '') {
+            isValid = false;
+            alert('Vui lòng nhập họ tên của bạn');
+        } else if (email === '' || !isValidEmail(email)) {
+            isValid = false;
+            alert('Vui lòng nhập địa chỉ email hợp lệ');
+        } else if (subject === '') {
+            isValid = false;
+            alert('Vui lòng nhập chủ đề');
+        } else if (message === '') {
+            isValid = false;
+            alert('Vui lòng nhập tin nhắn');
+        }
+        
+        if (isValid) {
+            // In a real application, this would send the form data to a server
+            alert('Tin nhắn của bạn đã được gửi! Chúng tôi sẽ liên hệ lại sớm nhất có thể.');
+            contactForm.reset();
+        }
+    });
+}
+
+// Newsletter form
+if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = newsletterForm.querySelector('input').value.trim();
+        
+        if (email === '' || !isValidEmail(email)) {
+            alert('Vui lòng nhập địa chỉ email hợp lệ');
+        } else {
+            alert('Cảm ơn bạn đã đăng ký! Bạn sẽ nhận được các cập nhật qua email.');
+            newsletterForm.reset();
+        }
+    });
+}
+
+// Email validation function
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
 // Ripple effect on buttons
 document.querySelectorAll('.ripple-effect').forEach(button => {
     button.addEventListener('click', function(e) {
         const x = e.clientX - e.target.getBoundingClientRect().left;
         const y = e.clientY - e.target.getBoundingClientRect().top;
+        
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');
         ripple.style.left = x + 'px';
         ripple.style.top = y + 'px';
+        
         this.appendChild(ripple);
+        
         setTimeout(() => {
             ripple.remove();
         }, 600);
