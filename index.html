@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-color-scheme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nguyễn Văn A - Full Stack Developer & UI/UX Designer</title>
+    <meta name="description" content="Full Stack Developer và UI/UX Designer với hơn 5 năm kinh nghiệm tạo ra những trải nghiệm số tuyệt vời">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
     <!-- Loading Screen -->
@@ -17,26 +19,25 @@
             <div class="circle"></div>
             <div class="circle"></div>
         </div>
-        <p>Đang tải...</p>
+        <h3 style="margin-top: 20px; color: var(--color-text);">Đang tải...</h3>
     </div>
 
     <!-- Particles Background -->
     <div id="particles-js"></div>
 
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar"></div>
+
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <span>NVA</span>
-            </div>
+            <div class="nav-logo">Portfolio</div>
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Trang chủ</a></li>
+                <li><a href="#hero" class="nav-link">Trang chủ</a></li>
                 <li><a href="#about" class="nav-link">Giới thiệu</a></li>
                 <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
                 <li><a href="#experience" class="nav-link">Kinh nghiệm</a></li>
-                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
                 <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
-                <li><a href="#contact" class="nav-link">Liên hệ</a></li>
             </ul>
             <div class="theme-toggle">
                 <i class="fas fa-sun" id="theme-icon"></i>
@@ -44,394 +45,4 @@
             <div class="hamburger">
                 <span></span>
                 <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Progress Bar -->
-    <div class="progress-bar" id="progress-bar"></div>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-avatar">
-                <img src="https://pplx-res.cloudinary.com/image/upload/v1748585210/pplx_project_search_images/dcf3ba6a73621777b062b69cefc08bd4c538ebb4.jpg" alt="Nguyễn Văn A" class="avatar-img">
-                <div class="avatar-ring"></div>
-            </div>
-            <h1 class="hero-name">
-                <span class="typing-text" id="typing-text"></span>
-                <span class="cursor">|</span>
-            </h1>
-            <p class="hero-title">Full Stack Developer & UI/UX Designer</p>
-            <p class="hero-description">Nhà phát triển đam mê với hơn 5 năm kinh nghiệm tạo ra những trải nghiệm số tuyệt vời</p>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="50">0</span>
-                    <span class="stat-label">Dự án hoàn thành</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="30">0</span>
-                    <span class="stat-label">Khách hàng hài lòng</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="5">0</span>
-                    <span class="stat-label">Năm kinh nghiệm</span>
-                </div>
-            </div>
-            <div class="hero-buttons">
-                <button class="btn btn--primary ripple-effect" id="download-cv">
-                    <i class="fas fa-download"></i>
-                    Tải CV
-                </button>
-                <button class="btn btn--outline ripple-effect" id="contact-btn">
-                    <i class="fas fa-envelope"></i>
-                    Liên hệ
-                </button>
-            </div>
-            <div class="social-links">
-                <a href="https://facebook.com/profile" target="_blank" class="social-link" data-platform="Facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://linkedin.com/in/profile" target="_blank" class="social-link" data-platform="LinkedIn">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://github.com/username" target="_blank" class="social-link" data-platform="GitHub">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://twitter.com/username" target="_blank" class="social-link" data-platform="Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="https://instagram.com/username" target="_blank" class="social-link" data-platform="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about section">
-        <div class="container">
-            <h2 class="section-title fade-in">Giới thiệu về tôi</h2>
-            <div class="about-content">
-                <div class="about-text fade-in">
-                    <p>Xin chào! Tôi là <strong>Nguyễn Văn A</strong>, một Full Stack Developer và UI/UX Designer đầy đam mê với hơn 5 năm kinh nghiệm trong việc tạo ra những trải nghiệm số tuyệt vời.</p>
-                    <p>Tôi có khả năng chuyên môn trong phát triển web hiện đại, từ thiết kế giao diện người dùng đến xây dựng backend mạnh mẽ. Tôi luôn tìm kiếm những thách thức mới và cơ hội để học hỏi công nghệ tiên tiến.</p>
-                    <div class="about-details">
-                        <div class="detail-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Thành phố Hồ Chí Minh, Việt Nam</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>contact@example.com</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+84 123 456 789</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-image fade-in">
-                    <img src="https://pplx-res.cloudinary.com/image/upload/v1748584996/pplx_project_search_images/7953a252dbb6327c76caec6b471eced803b08192.jpg" alt="About me" class="about-img">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills section">
-        <div class="container">
-            <h2 class="section-title fade-in">Kỹ năng chuyên môn</h2>
-            <div class="skills-grid">
-                <div class="skill-item fade-in">
-                    <div class="skill-info">
-                        <span class="skill-name">JavaScript</span>
-                        <span class="skill-percentage">95%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="95"></div>
-                    </div>
-                </div>
-                <div class="skill-item fade-in">
-                    <div class="skill-info">
-                        <span class="skill-name">React</span>
-                        <span class="skill-percentage">90%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="90"></div>
-                    </div>
-                </div>
-                <div class="skill-item fade-in">
-                    <div class="skill-info">
-                        <span class="skill-name">Node.js</span>
-                        <span class="skill-percentage">85%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="85"></div>
-                    </div>
-                </div>
-                <div class="skill-item fade-in">
-                    <div class="skill-info">
-                        <span class="skill-name">Python</span>
-                        <span class="skill-percentage">80%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="80"></div>
-                    </div>
-                </div>
-                <div class="skill-item fade-in">
-                    <div class="skill-info">
-                        <span class="skill-name">UI/UX Design</span>
-                        <span class="skill-percentage">88%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="88"></div>
-                    </div>
-                </div>
-                <div class="skill-item fade-in">
-                    <div class="skill-info">
-                        <span class="skill-name">HTML/CSS</span>
-                        <span class="skill-percentage">98%</span>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-width="98"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section id="experience" class="experience section">
-        <div class="container">
-            <h2 class="section-title fade-in">Kinh nghiệm làm việc</h2>
-            <div class="timeline">
-                <div class="timeline-item fade-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Senior Full Stack Developer</h3>
-                        <h4>Tech Startup</h4>
-                        <span class="timeline-date">2022 - Hiện tại</span>
-                        <p>Dẫn dắt phát triển các ứng dụng web sử dụng React và Node.js</p>
-                    </div>
-                </div>
-                <div class="timeline-item fade-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Frontend Developer</h3>
-                        <h4>Digital Agency</h4>
-                        <span class="timeline-date">2020 - 2022</span>
-                        <p>Tạo ra các trang web responsive và ứng dụng mobile</p>
-                    </div>
-                </div>
-                <div class="timeline-item fade-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Junior Developer</h3>
-                        <h4>Software Company</h4>
-                        <span class="timeline-date">2019 - 2020</span>
-                        <p>Học hỏi và đóng góp vào các dự án phát triển web đa dạng</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
-        <div class="container">
-            <h2 class="section-title fade-in">Portfolio của tôi</h2>
-            <div class="portfolio-grid">
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-image">
-                        <img src="https://pplx-res.cloudinary.com/image/upload/v1748542585/pplx_project_search_images/e237f8872bdfdaf91668faa4dd5e7b5edc8f720c.jpg" alt="E-commerce Platform">
-                        <div class="portfolio-overlay">
-                            <h3>Nền tảng Thương mại điện tử</h3>
-                            <p>Giải pháp thương mại điện tử full-stack với React và Node.js</p>
-                            <div class="portfolio-tech">
-                                <span>React</span>
-                                <span>Node.js</span>
-                                <span>MongoDB</span>
-                            </div>
-                            <button class="btn btn--primary">Xem chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-image">
-                        <img src="https://pplx-res.cloudinary.com/image/upload/v1748579080/pplx_project_search_images/ce96d602611085108aa04ee2f08efc296e9e9723.jpg" alt="Mobile Banking App">
-                        <div class="portfolio-overlay">
-                            <h3>Ứng dụng Ngân hàng Di động</h3>
-                            <p>Ứng dụng ngân hàng di động bảo mật với giao diện hiện đại</p>
-                            <div class="portfolio-tech">
-                                <span>React Native</span>
-                                <span>Firebase</span>
-                            </div>
-                            <button class="btn btn--primary">Xem chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-image">
-                        <img src="https://pplx-res.cloudinary.com/image/upload/v1748584996/pplx_project_search_images/f6b7291567f4dabfa53e5e5a38c04b284fade723.jpg" alt="Dashboard Analytics">
-                        <div class="portfolio-overlay">
-                            <h3>Dashboard Phân tích</h3>
-                            <p>Dashboard phân tích real-time cho thông tin kinh doanh</p>
-                            <div class="portfolio-tech">
-                                <span>Vue.js</span>
-                                <span>D3.js</span>
-                                <span>Python</span>
-                            </div>
-                            <button class="btn btn--primary">Xem chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section">
-        <div class="container">
-            <h2 class="section-title fade-in">Đánh giá từ khách hàng</h2>
-            <div class="testimonials-carousel">
-                <div class="testimonial-item active fade-in">
-                    <div class="testimonial-content">
-                        <p>"Nhà phát triển xuất sắc với sự chú ý tuyệt vời đến chi tiết và kỹ năng giải quyết vấn đề."</p>
-                        <div class="testimonial-author">
-                            <h4>John Smith</h4>
-                            <span>Project Manager</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item fade-in">
-                    <div class="testimonial-content">
-                        <p>"Giao hàng chất lượng cao đúng thời hạn và vượt quá mong đợi của chúng tôi."</p>
-                        <div class="testimonial-author">
-                            <h4>Sarah Johnson</h4>
-                            <span>CEO</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-nav">
-                <button class="nav-dot active" data-slide="0"></button>
-                <button class="nav-dot" data-slide="1"></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-        <div class="container">
-            <h2 class="section-title fade-in">Liên hệ với tôi</h2>
-            <div class="contact-content">
-                <div class="contact-info fade-in">
-                    <h3>Hãy bắt đầu cuộc trò chuyện</h3>
-                    <p>Tôi luôn sẵn sàng thảo luận về các dự án mới, cơ hội sáng tạo hoặc hợp tác.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <p>contact@example.com</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <h4>Điện thoại</h4>
-                                <p>+84 123 456 789</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>Địa chỉ</h4>
-                                <p>Thành phố Hồ Chí Minh, Việt Nam</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form class="contact-form fade-in" id="contact-form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Họ và tên" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Chủ đề" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea class="form-control" id="message" name="message" rows="5" placeholder="Tin nhắn" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn--primary btn--full-width ripple-effect">
-                        <i class="fas fa-paper-plane"></i>
-                        Gửi tin nhắn
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="newsletter section">
-        <div class="container">
-            <div class="newsletter-content fade-in">
-                <h3>Đăng ký nhận tin tức</h3>
-                <p>Nhận những cập nhật mới nhất về công nghệ và các dự án của tôi</p>
-                <form class="newsletter-form" id="newsletter-form">
-                    <input type="email" class="form-control" placeholder="Nhập email của bạn" required>
-                    <button type="submit" class="btn btn--primary">Đăng ký</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>Nguyễn Văn A</h3>
-                    <p>Full Stack Developer & UI/UX Designer</p>
-                </div>
-                <div class="footer-social">
-                    <a href="https://facebook.com/profile" target="_blank" class="social-link">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/profile" target="_blank" class="social-link">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://github.com/username" target="_blank" class="social-link">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://twitter.com/username" target="_blank" class="social-link">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://instagram.com/username" target="_blank" class="social-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Nguyễn Văn A. Tất cả quyền được bảo lưu.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Back to Top Button -->
-    <button class="back-to-top" id="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+                <spa
