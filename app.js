@@ -24,8 +24,8 @@ const testimonialFormStatus = document.getElementById('testimonial-form-status')
 
 // --- GOOGLE APPS SCRIPT URLS ---
 // BẠN CẦN THAY THẾ CÁC URL DƯỚI ĐÂY BẰNG URL DEPLOYMENT CỦA GOOGLE APPS SCRIPT CỦA BẠN
-const CONTACT_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_FOR_CONTACTS';
-const TESTIMONIAL_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_FOR_TESTIMONIALS';
+const CONTACT_SCRIPT_URL = 'https://https://script.google.com/macros/s/AKfycbxLi9ypZnprxdGaV383OpXzaeHZ0nebVTqggRl2IW0b7Kx0F-tBCEtPsyYulN0phT7i/exec.google.com/spreadsheets/d/1qTgpyOMhP0QfmHQgSHLQSB_jwrFakv8fraUDHRFotiE/edit?gid=0#gid=0';
+const TESTIMONIAL_SCRIPT_URL = 'https://docs.https://script.google.com/macros/s/AKfycbzKedoGxzuftwu-GVbEj5Ty9r2M72cyPU0lVr5ttgeh45gYGLhE51gHCgfu5P9M7l_V/exec.com/spreadsheets/d/1qTgpyOMhP0QfmHQgSHLQSB_jwrFakv8fraUDHRFotiE/edit?gid=1944847481#gid=1944847481';
 
 // Global Variables
 let currentTestimonial = 0;
