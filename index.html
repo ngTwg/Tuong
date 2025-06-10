@@ -3,297 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nguyễn Văn A - Full Stack Developer & AI Specialist</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Lê Ngọc Tường</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-background: rgba(252, 252, 249, 1);
+            --color-surface: rgba(255, 255, 253, 1);
+            --color-text: rgba(19, 52, 59, 1);
+            --color-text-secondary: rgba(98, 108, 113, 1);
+            --color-primary: rgba(33, 128, 141, 1);
+            --color-primary-hover: rgba(29, 116, 128, 1);
+            --color-secondary: rgba(235, 241, 242, 1);
+            --color-border: rgba(220, 225, 226, 1);
+            --color-btn-primary-text: rgba(252, 252, 249, 1);
+            --color-error: rgba(192, 21, 47, 1);
+            --color-success: rgba(33, 128, 141, 1);
+            --color-focus-ring: rgba(33, 128, 141, 0.4);
+            --color-primary-glow: rgba(50, 184, 198, 0.3);
+        }
+
+        [data-color-scheme="dark"] {
+            --color-background: rgb(20, 22, 23);
+            --color-surface: rgba(31, 33, 33, 1);
+            --color-text: rgba(245, 245, 245, 1);
+            --color-text-secondary: rgba(167, 169, 169, 0.7);
+            --color-primary: rgba(50, 184, 198, 1);
+            --color-primary-hover: rgba(45, 166, 178, 1);
+            --color-secondary: rgba(28, 30, 31, 1);
+            --color-border: rgba(55, 58, 59, 1);
+            --color-btn-primary-text: rgba(19, 52, 59, 1);
+            --color-primary-glow: rgba(50, 184, 198, 0.4);
+        }
+
+        html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; color: var(--color-text); background-color: var(--color-background); }
+        body { margin: 0; padding: 0; overflow-x: hidden; position: relative; }
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease-out; }
+        .loader { display: flex; gap: 10px; }
+        .loader .circle { width: 15px; height: 15px; border-radius: 50%; background-color: var(--color-primary); animation: bounce 1s infinite alternate; }
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
+
+        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
+
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.3s ease; padding: 15px 0; background-color: transparent; }
+        .navbar.scrolled { background-color: var(--color-surface); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-bottom: 1px solid var(--color-border);}
+        .nav-container { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1100px; margin: 0 auto; }
+        .nav-logo { font-size: 28px; font-weight: 700; color: var(--color-primary); }
+        .nav-menu { display: flex; list-style: none; padding: 0; margin: 0; }
+        .nav-link { color: var(--color-text); text-decoration: none; margin: 0 15px; font-weight: 500; transition: all 0.3s ease; position: relative; padding: 5px 0; cursor: pointer; }
+        .nav-link:hover { color: var(--color-primary); }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--color-primary); transition: width 0.3s ease; }
+        .nav-link:hover::after { width: 100%; }
+        .theme-toggle { background: var(--color-secondary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; border: 1px solid var(--color-border);}
+        .hamburger { display: none; cursor: pointer; }
+        .hamburger span { display: block; width: 25px; height: 3px; background-color: var(--color-text); margin: 5px 0; border-radius: 3px; transition: all 0.3s ease; }
+
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background-color: var(--color-primary); width: 0%; z-index: 1001; transition: width 0.1s ease; }
+
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; overflow: hidden; }
+        .hero-content { max-width: 800px; z-index: 2; }
+        .hero-avatar { position: relative; width: 150px; height: 150px; margin: 0 auto 30px; }
+        .avatar-img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; z-index: 2; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .avatar-ring { position: absolute; width: 150px; height: 150px; border-radius: 50%; border: 2px solid var(--color-primary); animation: pulse 2s infinite; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; } }
+        .hero-name { font-size: 48px; margin-bottom: 10px; }
+        .typing-text { font-weight: 700; }
+        .cursor { display: inline-block; width: 3px; background-color: var(--color-primary); animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .hero-title { font-size: 20px; color: var(--color-text-secondary); margin-bottom: 15px; }
+        .hero-description { font-size: 18px; max-width: 600px; margin: 0 auto 30px; }
+        .hero-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;}
+        .social-links { display: flex; justify-content: center; gap: 15px; }
+        .social-link { width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text); transition: all 0.3s ease; font-size: 16px; border: 1px solid var(--color-border);}
+        .social-link:hover { background-color: var(--color-primary); color: var(--color-btn-primary-text); transform: translateY(-3px); }
+
+        .section { padding: 100px 0; position: relative; }
+        .section-title { font-size: 36px; text-align: center; margin-bottom: 60px; position: relative; }
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--color-primary); }
+
+        /* Cập nhật CSS cho Kỹ năng chuyên môn */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 30px; }
+        .skill-item { margin-bottom: 25px; } /* Xóa khung */
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 500; }
+        .skill-bar { height: 8px; background-color: var(--color-secondary); border-radius: 4px; overflow: hidden; }
+        .skill-progress { height: 100%; background-color: var(--color-primary); border-radius: 4px; width: 0; transition: width 1.5s ease; }
+
+        #portfolio { background-color: var(--color-secondary); }
+        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .service-card {
+            background-color: var(--color-surface); padding: 30px; border-radius: 12px; text-align: center;
+            border: 1px solid var(--color-border); transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .service-card-content { transition: opacity 0.3s ease; }
+        .service-card:hover .service-card-content { opacity: 0.1; }
+        .service-card .service-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .service-card:hover .service-overlay { opacity: 1; visibility: visible; }
+        .service-overlay .contact-links { display: flex; gap: 20px; }
+        .service-overlay .contact-links a { color: var(--color-primary); font-size: 24px; transition: transform 0.2s ease; }
+        .service-overlay .contact-links a:hover { transform: scale(1.2); }
+        .service-icon { font-size: 48px; color: var(--color-primary); margin-bottom: 20px; }
+        .service-card h3 { font-size: 22px; color: var(--color-primary); margin-bottom: 15px; }
+        .service-card p { color: var(--color-text-secondary); line-height: 1.6; font-size: 16px; }
+
+        #testimonials { background-color: var(--color-background); }
+        .testimonials-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .testimonial-card { background-color: var(--color-surface); padding: 25px; border-radius: 12px; border: 1px solid var(--color-border); }
+        .testimonial-card p { font-style: italic; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 15px; font-size: 16px;}
+        .testimonial-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--color-border); }
+        .testimonial-footer h4 { margin: 0; font-weight: 600; color: var(--color-primary); font-size: 16px; }
+        .testimonial-date { font-size: 12px; color: var(--color-text-secondary); }
+        #testimonials-loader { text-align: center; padding: 20px; }
+        .review-form-container { max-width: 700px; margin: 40px auto 0; padding: 30px; background-color: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-border);}
+        .review-form-container h3 { text-align: center; margin-bottom: 25px; }
+
+        .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .contact-info p { margin-bottom: 20px; line-height: 1.7; }
+        .contact-info h3 { margin-bottom: 20px; font-size: 28px; }
+        .contact-details { margin-top: 30px; }
+        .contact-item { display: flex; align-items: flex-start; margin-bottom: 25px; }
+        .contact-item i { width: 40px; height: 40px; background-color: var(--color-secondary); color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 16px; }
+        .contact-item h4 { margin-bottom: 5px; font-size: 18px; }
+        .contact-item p { margin-bottom: 0; color: var(--color-text-secondary); }
+
+        .form-control { background-color: var(--color-secondary); border: 1px solid var(--color-border); padding: 15px; border-radius: 8px; width: 100%; transition: all 0.3s ease; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 16px; }
+        .form-control:focus { border-color: var(--color-primary); background-color: var(--color-surface); box-shadow: 0 0 0 3px var(--color-focus-ring); outline: none;}
+        textarea.form-control { resize: vertical; min-height: 120px; }
+        .form-group { margin-bottom: 20px; }
+
+        .footer { background-color: var(--color-surface); padding: 60px 0 20px; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;}
+        .footer-brand p { margin: 0; color: var(--color-text-secondary); }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--color-border); }
+        .footer-bottom p { margin: 0; }
+
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; border: none; z-index: 99; }
+        .back-to-top.show { opacity: 1; transform: translateY(0); }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; border: none; text-decoration: none; }
+        .btn i { margin-right: 8px; }
+        .btn--primary { background: var(--color-primary); color: var(--color-btn-primary-text); }
+        .btn--primary:hover { background: var(--color-primary-hover); }
+        .btn--full-width { width: 100%; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .toast-notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 8px; color: white; font-size: 14px; z-index: 3000; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .toast-notification.show { opacity: 1; transform: translate(-50%, -10px); }
+        .toast-notification.success { background-color: var(--color-success); }
+        .toast-notification.error { background-color: var(--color-error); }
+
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 991px) {
+            .nav-menu { position: fixed; top: -100%; left: 0; width: 100%; background-color: var(--color-surface); flex-direction: column; align-items: center; padding: 20px 0; transition: all 0.3s ease; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
+            .nav-menu.active { top: 70px; }
+            .hamburger { display: block; }
+            .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            .contact-content { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 70px 0; }
+            .service-grid, .testimonials-container, .skills-grid { grid-template-columns: 1fr; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .hero-name { font-size: 36px; }
+            .hero-buttons { flex-direction: column; gap: 10px; width: 80%; margin: 30px auto; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loader">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-        </div>
-        <p>Đang tải...</p>
+<div id="loading-screen"><div class="loader"><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div></div><p>Đang tải...</p></div>
+<div id="particles-js"></div>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <div class="nav-logo"><span>Tuong</span></div>
+        <ul class="nav-menu">
+            <li><a href="#home" class="nav-link">Trang chủ</a></li>
+            <li><a href="#portfolio" class="nav-link">Dịch vụ</a></li>
+            <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
+            <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
+            <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+        </ul>
+        <div class="theme-toggle"><i class="fas fa-sun" id="theme-icon"></i></div>
+        <div class="hamburger"><span></span><span></span><span></span></div>
     </div>
+</nav>
 
-    <!-- Particles Background -->
-    <div id="particles-js"></div>
+<div class="progress-bar" id="progress-bar"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span>NVA</span>
+<section id="home" class="hero">
+    <div class="hero-content">
+        <div class="hero-avatar">
+            <img src="https://res.cloudinary.com/dauchcbor/image/upload/v1749579422/z6691586368822_1e7ab0b6e962ea16132c684b0406c5c3_kpeel1.jpg" alt="Lê Ngọc Tường" class="avatar-img">
+            <div class="avatar-ring"></div>
+        </div>
+        <h1 class="hero-name"><span class="typing-text" id="typing-text"></span><span class="cursor">|</span></h1>
+        <p class="hero-title">Buôn May Bán Dạo</p>
+        <p class="hero-description">Nhà bán hàng uy tín nhưng nghèo nhất quả đất !!</p>
+        <div class="hero-buttons">
+            <button class="btn btn--primary" id="hero-contact-btn"><i class="fas fa-paper-plane"></i>Liên Hệ</button>
+            <button class="btn btn--primary" id="view-portfolio-btn"><i class="fas fa-briefcase"></i>Xem Dịch Vụ</button>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://github.com/ngTwg" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/ngtu.ong14.11/" target="_blank" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://zalo.me/0365297935" target="_blank" class="social-link" title="Zalo"><i class="fas fa-comment"></i></a>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio" class="portfolio section">
+    <div class="container">
+        <h2 class="section-title fade-in">Dịch vụ</h2>
+        <div class="service-grid">
+            <div class="service-card fade-in">
+                <div class="service-card-content">
+                    <i class="fab fa-google service-icon"></i>
+                    <h3>Google Services</h3>
+                    <p>Tối ưu hóa và phát triển ứng dụng Google, Google Apps Script, Google Workspace solutions.</p>
+                </div>
+                <div class="service-overlay">
+                    <div class="contact-links">
+                        <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="mailto:lengoctuong2005@gmail.com" title="Gmail"><i class="fas fa-envelope"></i></a>
+                        <a href="https://zalo.me/0365297935" target="_blank" title="Zalo"><i class="fas fa-comment"></i></a>
+                    </div>
+                </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Trang chủ</a></li>
-                <li><a href="#about" class="nav-link">Giới thiệu</a></li>
-                <li><a href="#services" class="nav-link">Dịch vụ</a></li>
-                <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
-                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-                <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
-                <li><a href="#contact" class="nav-link">Liên hệ</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button id="theme-toggle" class="theme-toggle-btn">
-                    <i class="fas fa-sun" id="theme-icon"></i>
-                </button>
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+            <div class="service-card fade-in">
+                <div class="service-card-content">
+                    <i class="fas fa-robot service-icon"></i>
+                    <h3>ChatGPT Integration</h3>
+                    <p>Tích hợp AI và chatbot thông minh, tự động hóa quy trình với ChatGPT API.</p>
+                </div>
+                <div class="service-overlay">
+                    <div class="contact-links">
+                        <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="mailto:lengoctuong2005@gmail.com" title="Gmail"><i class="fas fa-envelope"></i></a>
+                        <a href="https://zalo.me/0365297935" target="_blank" title="Zalo"><i class="fas fa-comment"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
+    </div>
+</section>
+
+<section id="skills" class="skills section">
+    <div class="container">
+        <h2 class="section-title fade-in">Kỹ năng chuyên môn</h2>
+        <div class="skills-grid">
+            <div class="skill-item fade-in"><div class="skill-info"><span>GG</span><span>95%</span></div><div class="skill-bar"><div class="skill-progress" data-width="95"></div></div></div>
+            <div class="skill-item fade-in"><div class="skill-info"><span>GPT</span><span>90%</span></div><div class="skill-bar"><div class="skill-progress" data-width="90"></div></div></div>
+            <div class="skill-item fade-in"><div class="skill-info"><span>SCAM</span><span>85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
+            <div class="skill-item fade-in"><div class="skill-info"><span>Nghèo</span><span>80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
+            <div class="skill-item fade-in"><div class="skill-info"><span>NHANH</span><span>88%</span></div><div class="skill-bar"><div class="skill-progress" data-width="88"></div></div></div>
+            <div class="skill-item fade-in"><div class="skill-info"><span>C/C++</span><span>98%</span></div><div class="skill-bar"><div class="skill-progress" data-width="98"></div></div></div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="container hero-content">
-                <div class="hero-text">
-                    <h1 class="hero-name">Nguyễn Văn A</h1>
-                    <p class="hero-title">Tôi là một <span id="typing-text"></span></p>
-                    <p class="hero-description">Chào mừng đến với không gian sáng tạo của tôi. Tôi biến những ý tưởng phức tạp thành các giải pháp kỹ thuật số đẹp mắt, trực quan và dễ sử dụng.</p>
-                    <div class="hero-buttons">
-                        <a href="#portfolio" class="btn btn-primary ripple-effect">Xem Portfolio</a>
-                        <a href="#contact" class="btn btn-secondary ripple-effect">Liên hệ</a>
-                    </div>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number" data-target="5">0</span>
-                        <p>Năm kinh nghiệm</p>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" data-target="50">0</span>+
-                        <p>Dự án hoàn thành</p>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number" data-target="30">0</span>+
-                        <p>Khách hàng hài lòng</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container about-content">
-                <div class="about-image">
-                    <img src="https://placehold.co/500x500/333/fff?text=NVA" alt="Nguyễn Văn A">
-                </div>
-                <div class="about-text">
-                    <h2 class="section-title">Về tôi</h2>
-                    <p>Tôi là một lập trình viên Full Stack và chuyên gia AI, đam mê tạo ra các ứng dụng web liền mạch và hấp dẫn. Với nền tảng vững chắc về cả công nghệ front-end, back-end và AI, tôi mang đến một cách tiếp cận toàn diện cho mỗi dự án, đảm bảo cả chức năng mạnh mẽ và trải nghiệm người dùng đặc biệt.</p>
-                    <p>Triết lý của tôi là sự kết hợp giữa thiết kế lấy người dùng làm trung tâm và mã nguồn sạch, hiệu quả. Tôi tin rằng công nghệ tốt nhất là công nghệ hoạt động một cách vô hình, trao quyền cho người dùng mà không cản trở. Tôi luôn cập nhật các xu hướng và công nghệ mới nhất để mang lại các giải pháp tiên tiến.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services Section -->
-        <section id="services" class="section bg-light">
-            <div class="container">
-                <h2 class="section-title">Dịch vụ của tôi</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fab fa-google"></i></div>
-                        <h3>Dịch vụ Google</h3>
-                        <p>Tối ưu hóa và tích hợp các dịch vụ của Google để nâng cao hiệu quả công việc và tiếp cận khách hàng.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-robot"></i></div>
-                        <h3>Tích hợp ChatGPT</h3>
-                        <p>Xây dựng các giải pháp thông minh, tự động hóa tương tác với khách hàng bằng công nghệ ChatGPT.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="section">
-            <div class="container">
-                <h2 class="section-title">Kỹ năng chuyên môn</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Front-End</h3>
-                        <div class="skill">
-                            <span>HTML5 & CSS3</span>
-                            <div class="skill-bar"><div class="skill-progress" data-progress="95%"><span class="skill-percent">0%</span></div></div>
-                        </div>
-                        <div class="skill">
-                            <span>JavaScript (ES6+)</span>
-                            <div class="skill-bar"><div class="skill-progress" data-progress="90%"><span class="skill-percent">0%</span></div></div>
-                        </div>
-                        <div class="skill">
-                            <span>React.js</span>
-                            <div class="skill-bar"><div class="skill-progress" data-progress="85%"><span class="skill-percent">0%</span></div></div>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Back-End & AI</h3>
-                        <div class="skill">
-                            <span>Node.js & Express</span>
-                            <div class="skill-bar"><div class="skill-progress" data-progress="88%"><span class="skill-percent">0%</span></div></div>
-                        </div>
-                        <div class="skill">
-                            <span>Python & AI/ML</span>
-                            <div class="skill-bar"><div class="skill-progress" data-progress="80%"><span class="skill-percent">0%</span></div></div>
-                        </div>
-                        <div class="skill">
-                            <span>Cơ sở dữ liệu (SQL & NoSQL)</span>
-                            <div class="skill-bar"><div class="skill-progress" data-progress="92%"><span class="skill-percent">0%</span></div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Portfolio Section -->
-        <section id="portfolio" class="section bg-light">
-            <div class="container">
-                <h2 class="section-title">Dự án của tôi</h2>
-                <div class="portfolio-grid">
-                    <div class="portfolio-item">
-                        <img src="https://placehold.co/600x400/555/fff?text=Project+1" alt="Project 1">
-                        <div class="portfolio-overlay">
-                            <div class="portfolio-info">
-                                <h3>Tên Dự Án 1</h3>
-                                <p>Mô tả ngắn về dự án, công nghệ sử dụng.</p>
-                            </div>
-                            <div class="portfolio-contact">
-                                <p>Liên hệ:</p>
-                                <div class="contact-icons">
-                                    <a href="https://facebook.com/your_fb_username" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="https://m.me/your_fb_username" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
-                                    <a href="https://zalo.me/your_zalo_phone" target="_blank"><i class="fas fa-comment-dots"></i></a>
-                                    <a href="mailto:your_email@gmail.com"><i class="fas fa-envelope"></i></a>
-                                    <a href="https://github.com/your_github_username" target="_blank"><i class="fab fa-github"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add more portfolio items as needed -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="section">
-            <div class="container">
-                <h2 class="section-title">Khách hàng nói gì</h2>
-                <div id="testimonial-slider" class="testimonial-slider">
-                    <div class="testimonial-item active">
-                        <p class="testimonial-text">"Làm việc với anh ấy thật tuyệt vời. Anh ấy đã biến tầm nhìn của chúng tôi thành một sản phẩm thực tế vượt xa mong đợi của chúng tôi."</p>
-                        <div class="testimonial-author">
-                            <h4>Trần Thị B</h4>
-                        </div>
-                    </div>
-                    <div class="testimonial-item">
-                         <p class="testimonial-text">"Chuyên nghiệp, sáng tạo và luôn đúng hẹn. Tôi chắc chắn sẽ giới thiệu anh ấy cho bất kỳ ai cần một chuyên gia phát triển web."</p>
-                        <div class="testimonial-author">
-                           <h4>Lê Văn C</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-nav">
-                    <button class="nav-dot active" data-slide="0"></button>
-                    <button class="nav-dot" data-slide="1"></button>
-                </div>
-                <div class="add-testimonial-wrapper">
-                    <button id="add-testimonial-btn" class="btn btn-primary ripple-effect">Thêm đánh giá</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section bg-light">
-            <div class="container">
-                <h2 class="section-title">Liên hệ với tôi</h2>
-                <div class="contact-wrapper">
-                    <div class="contact-info">
-                        <h3>Thông tin liên hệ</h3>
-                        <p>Nếu bạn có một dự án, một câu hỏi hoặc chỉ muốn nói lời chào, đừng ngần ngại liên hệ.</p>
-                        <ul>
-                            <li><i class="fas fa-map-marker-alt"></i> TP. Hồ Chí Minh, Việt Nam</li>
-                            <li><i class="fas fa-envelope"></i> your_email@gmail.com</li>
-                            <li><i class="fas fa-phone"></i> +84 123 456 789</li>
-                        </ul>
-                    </div>
-                    <form id="contact-form" class="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Tên của bạn" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Email của bạn" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" rows="5" placeholder="Nội dung tin nhắn" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary ripple-effect">Gửi tin nhắn</button>
-                        <div id="contact-form-status"></div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <h3>Nguyễn Văn A</h3>
-                    <p>Full Stack Developer & AI Specialist</p>
-                </div>
-                <div class="footer-social">
-                    <a href="https://facebook.com/your_fb_username" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/your_ig_username" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="mailto:your_email@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
-                    <a href="https://m.me/your_fb_username" target="_blank" class="social-link"><i class="fab fa-facebook-messenger"></i></a>
-                    <a href="https://github.com/your_github_username" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="https://zalo.me/your_zalo_phone" target="_blank" class="social-link"><i class="fas fa-comment-dots"></i></a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Nguyễn Văn A. Tất cả quyền được bảo lưu.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Modals -->
-    <div id="testimonial-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>Để lại đánh giá của bạn</h3>
-            <form id="testimonial-form">
-                <div class="form-group">
-                    <input type="text" id="testimonial-name" name="name" placeholder="Tên của bạn" required>
-                </div>
-                <div class="form-group">
-                    <textarea id="testimonial-message" name="message" rows="5" placeholder="Nội dung đánh giá" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary ripple-effect">Gửi đánh giá</button>
-                <div id="testimonial-form-status"></div>
+<section id="testimonials" class="testimonials section">
+    <div class="container">
+        <h2 class="section-title fade-in">Đánh giá từ khách hàng</h2>
+        <div id="testimonials-loader"><p>Đang tải đánh giá...</p></div>
+        <div class="testimonials-container" id="testimonials-container"></div>
+        <div class="review-form-container fade-in">
+            <h3>Gửi đánh giá của bạn</h3>
+            <form id="review-form">
+                <div class="form-group"><input type="text" class="form-control" name="reviewer_name" placeholder="Họ và tên (không bắt buộc)"></div>
+                <div class="form-group"><textarea class="form-control" name="review_content" rows="4" placeholder="Nội dung đánh giá của bạn..." required></textarea></div>
+                <button type="submit" class="btn btn--primary btn--full-width" id="submit-review-btn"><i class="fas fa-paper-plane"></i>Gửi đánh giá</button>
             </form>
         </div>
     </div>
+</section>
 
-    <!-- Floating Back to Top Button -->
-    <button class="back-to-top" id="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+<section id="contact" class="contact section">
+    <div class="container">
+        <h2 class="section-title fade-in">Liên hệ với tôi</h2>
+        <div class="contact-content">
+            <div class="contact-info fade-in">
+                <h3>Hãy bắt đầu cuộc trò chuyện</h3>
+                <p>Tôi luôn sẵn sàng thảo luận về các dự án mới, cơ hội sáng tạo hoặc hợp tác.</p>
+                <div class="contact-details">
+                    <div class="contact-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p>lengoctuong2005@gmail.com</p></div></div>
+                    <div class="contact-item"><i class="fas fa-phone"></i><div><h4>Điện thoại</h4><p>+84 365 297 935</p></div></div>
+                    <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><h4>Địa chỉ</h4><p>Thành phố Hồ Chí Minh, Việt Nam</p></div></div>
+                </div>
+            </div>
+            <form class="contact-form fade-in" id="contact-form">
+                <div class="form-group"><input type="text" class="form-control" name="name" placeholder="Họ và tên" required></div>
+                <div class="form-group"><input type="email" class="form-control" name="email" placeholder="Email" required></div>
+                <div class="form-group"><input type="text" class="form-control" name="subject" placeholder="Chủ đề" required></div>
+                <div class="form-group"><textarea class="form-control" name="message" rows="5" placeholder="Tin nhắn" required></textarea></div>
+                <button type="submit" class="btn btn--primary btn--full-width" id="submit-contact-form"><i class="fas fa-paper-plane"></i>Gửi tin nhắn</button>
+            </form>
+        </div>
+    </div>
+</section>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="app.js"></script>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand"><h3>Lê Ngọc Tường</h3><p>Bán mọi thứ</p></div>
+            <div class="social-links">
+                <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://m.me/ngtu.ong14.11" target="_blank" class="social-link" title="Messenger"><i class="fab fa-facebook-messenger"></i></a>
+                <a href="https://zalo.me/0365297935" target="_blank" class="social-link" title="Zalo"><i class="fas fa-comment"></i></a>
+                <a href="mailto:lengoctuong2005@gmail.com" class="social-link" title="Gmail"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/ngTwg" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/ngtu.ong14.11/" target="_blank" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 Tuong.</p></div>
+    </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up"></i></button>
+<div id="toast-notification" class="toast-notification"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- CONSTANTS ---
+        const CONTACT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhWPuL56chTotjHo9eTl2ZkYxQI3KLwLszEjUZv9O1IcicuI0dlmWCukZcyq6238MP/exec';
+        const REVIEW_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOoX_nQStUfYGRCeJc-LmdqDdjJ9odPxrqOgLZRqkGMJo8A1l-ioXkoZmSXbMesb1k/exec';
+
+        // --- DOM Elements ---
+        const loadingScreen = document.getElementById('loading-screen');
+        const navbar = document.getElementById('navbar');
+        const progressBar = document.getElementById('progress-bar');
+        const backToTopBtn = document.getElementById('back-to-top');
+        const themeIcon = document.getElementById('theme-icon');
+        const typingText = document.getElementById('typing-text');
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        const contactForm = document.getElementById('contact-form');
+        const reviewForm = document.getElementById('review-form');
+        const testimonialsContainer = document.getElementById('testimonials-container');
+        const testimonialsLoader = document.getElementById('testimonials-loader');
+        const heroContactBtn = document.getElementById('hero-contact-btn');
+        const viewPortfolioBtn = document.getElementById('view-portfolio-btn');
+        const skillProgressBars = document.querySelectorAll('.skill-progress');
+
+        // --- Global Variables & Initial Setup ---
+        let isLoading = true;
+        let isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDarkMode) {
+            document.documentElement.setAttribute('data-color-scheme', 'dark');
+            if(themeIcon) themeIcon.className = 'fas fa-moon';
+        }
+
+        particlesJS('particles-js', { particles: { number: { value: 80, density: { enable: true, value_area: 800 } }, color: { value: isDarkMode ? '#32b8c6' : '#21808d' }, shape: { type: 'circle' }, opacity: { value: 0.5 }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: isDarkMode ? '#32b8c6' : '#21808d', opacity: 0.4, width: 1 }, move: { enable: true, speed: 2, direction: 'none', out_mode: 'out' } }, interactivity: { events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } }, modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } } }, retina_detect: true });
+
+        // --- Functions ---
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast-notification');
+            if(!toast) return;
+            toast.textContent = message;
+            toast.className = 'toast-notification';
+            toast.classList.add(type, 'show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function typeWriter() {
+            if(!typingText) return;
+            let textIndex = 0;
+            const textToType = 'Lê Ngọc Tường';
+            function type() {
+                if (textIndex < textToType.length) {
+                    typingText.textContent += textToType.charAt(textIndex);
+                    textIndex++;
+                    setTimeout(type, 150);
+                }
+            }
+            type();
+        }
+
+        function checkElementsInViewport() {
+            document.querySelectorAll('.fade-in').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9) {
+                    el.classList.add('show');
+                }
+            });
+            skillProgressBars.forEach(bar => {
+                if(!bar) return;
+                const rect = bar.getBoundingClientRect();
+                if (rect.top <= (window.innerHeight || document.documentElement.clientHeight)) {
+                    bar.style.width = bar.dataset.width + '%';
+                }
+            });
+        }
+
+        function formatDate(isoString) {
+            if (!isoString) return '';
+            const date = new Date(isoString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        async function loadReviews() {
+            if(!testimonialsLoader || !testimonialsContainer) return;
+            testimonialsLoader.style.display = 'block';
+            testimonialsContainer.innerHTML = '';
+
+            if (REVIEW_SCRIPT_URL.includes('YOUR_REVIEW_SCRIPT_URL_HERE')) {
+                testimonialsLoader.innerHTML = '<p>Chức năng đánh giá chưa được cấu hình.</p>';
+                return;
+            }
+            try {
+                const response = await fetch(REVIEW_SCRIPT_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const reviews = await response.json();
+
+                if (reviews && Array.isArray(reviews) && reviews.length > 0) {
+                    reviews.forEach(review => {
+                        const card = document.createElement('div');
+                        card.className = 'testimonial-card fade-in';
+                        card.innerHTML = `
+                            <p>"${review.content}"</p>
+                            <div class="testimonial-footer">
+                                <h4>- ${review.name}</h4>
+                                <small class="testimonial-date">${formatDate(review.timestamp)}</small>
+                            </div>
+                        `;
+                        testimonialsContainer.appendChild(card);
+                    });
+                    testimonialsLoader.style.display = 'none';
+                } else {
+                    testimonialsLoader.innerHTML = '<p>Chưa có đánh giá nào. Hãy là người đầu tiên!</p>';
+                }
+            } catch (error) {
+                console.error('Failed to load reviews:', error);
+                testimonialsLoader.innerHTML = '<p>Không thể tải đánh giá. Vui lòng thử lại sau.</p>';
+            } finally {
+                checkElementsInViewport();
+            }
+        }
+
+        async function handleFormSubmit(form, url, successCallback) {
+            if(!form) return;
+            const submitButton = form.querySelector('button[type="submit"]');
+            if (url.includes('YOUR_SCRIPT_URL_HERE')) {
+                showToast('Chức năng chưa được cấu hình đúng.', 'error');
+                return;
+            }
+
+            const originalButtonContent = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Đang gửi...`;
+
+            try {
+                const response = await fetch(url, { method: 'POST', body: new FormData(form) });
+                const result = await response.json();
+                if (!response.ok || result.result !== 'success') {
+                    throw new Error(result.error || 'Unknown submission error');
+                }
+
+                showToast('Gửi thành công!', 'success');
+                form.reset();
+                if (successCallback) successCallback();
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showToast('Có lỗi xảy ra, vui lòng thử lại.', 'error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonContent;
+            }
+        }
+
+        // --- Event Listeners ---
+        window.addEventListener('load', () => {
+            if(!loadingScreen) return;
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    isLoading = false;
+                    typeWriter();
+                    loadReviews();
+                    checkElementsInViewport();
+                }, 500);
+            }, 1000);
+        });
+
+        window.addEventListener('scroll', () => {
+            if(isLoading) return;
+            if(navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
+            if(progressBar){
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                progressBar.style.width = (window.scrollY / scrollHeight) * 100 + '%';
+            }
+            if(backToTopBtn) backToTopBtn.classList.toggle('show', window.scrollY > 300);
+            checkElementsInViewport();
+        });
+
+        if(backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        if(themeIcon) themeIcon.parentElement.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            const scheme = isDarkMode ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-color-scheme', scheme);
+            themeIcon.className = `fas ${isDarkMode ? 'fa-moon' : 'fa-sun'}`;
+            if (window.pJSDom && window.pJSDom[0]) {
+                const color = isDarkMode ? '#32b8c6' : '#21808d';
+                window.pJSDom[0].pJS.particles.color.value = color;
+                window.pJSDom[0].pJS.particles.line_linked.color = color;
+                window.pJSDom[0].pJS.fn.particlesRefresh();
+            }
+        });
+
+        if(hamburger && navMenu) hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+                }
+                if(hamburger && navMenu){
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        if(heroContactBtn) heroContactBtn.addEventListener('click', () => document.querySelector('#contact').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+        if(viewPortfolioBtn) viewPortfolioBtn.addEventListener('click', () => document.querySelector('#portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+
+        if(contactForm) contactForm.addEventListener('submit', (e) => { e.preventDefault(); handleFormSubmit(contactForm, CONTACT_SCRIPT_URL); });
+        if(reviewForm) reviewForm.addEventListener('submit', (e) => { e.preventDefault(); handleFormSubmit(reviewForm, REVIEW_SCRIPT_URL, loadReviews); });
+    });
+</script>
 </body>
 </html>
