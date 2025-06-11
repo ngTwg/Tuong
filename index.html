@@ -83,9 +83,8 @@
         .section-title { font-size: 36px; text-align: center; margin-bottom: 60px; position: relative; }
         .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--color-primary); }
 
-        /* Cập nhật CSS cho Kỹ năng chuyên môn */
         .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 30px; }
-        .skill-item { margin-bottom: 25px; } /* Xóa khung */
+        .skill-item { margin-bottom: 25px; }
         .skill-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 500; }
         .skill-bar { height: 8px; background-color: var(--color-secondary); border-radius: 4px; overflow: hidden; }
         .skill-progress { height: 100%; background-color: var(--color-primary); border-radius: 4px; width: 0; transition: width 1.5s ease; }
@@ -161,6 +160,25 @@
 
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .fade-in.show { opacity: 1; transform: translateY(0); }
+        
+        #bank-accounts { background-color: var(--color-background); }
+        .bank-accounts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; justify-content: center; }
+        .bank-card { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; text-align: center; padding: 25px; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center; }
+        .bank-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .bank-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .bank-logo { height: 40px; width: auto; border-radius: 8px; }
+        .bank-card-header h3 { margin: 0; font-size: 22px; }
+        .bank-card-body { flex-grow: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .bank-card-body p { margin: 0 0 10px; color: var(--color-text-secondary); }
+        .bank-card-body p strong { color: var(--color-text); }
+        .account-number { display: flex; align-items: center; justify-content: center; background-color: var(--color-secondary); border-radius: 8px; padding: 8px 15px; width: fit-content; margin: 0 auto; }
+        .account-number p { margin: 0; }
+        .account-number span { font-weight: 600; color: var(--color-primary); letter-spacing: 1px; }
+        .btn-copy { background: transparent; border: none; color: var(--color-text); cursor: pointer; font-size: 16px; margin-left: 10px; padding: 5px; transition: color 0.3s ease; }
+        .btn-copy:hover { color: var(--color-primary); }
+        .bank-card-footer { margin-top: 20px; width: 100%; }
+        .payment-button { margin-top: 15px; width: 100%; max-width: 250px; }
+
 
         @media (max-width: 991px) {
             .nav-menu { position: fixed; top: -100%; left: 0; width: 100%; background-color: var(--color-surface); flex-direction: column; align-items: center; padding: 20px 0; transition: all 0.3s ease; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
@@ -173,7 +191,7 @@
         }
         @media (max-width: 768px) {
             .section { padding: 70px 0; }
-            .service-grid, .testimonials-container, .skills-grid { grid-template-columns: 1fr; }
+            .service-grid, .testimonials-container, .skills-grid, .bank-accounts-grid { grid-template-columns: 1fr; }
             .footer-content { flex-direction: column; text-align: center; }
             .hero-name { font-size: 36px; }
             .hero-buttons { flex-direction: column; gap: 10px; width: 80%; margin: 30px auto; }
@@ -190,6 +208,7 @@
         <ul class="nav-menu">
             <li><a href="#home" class="nav-link">Trang chủ</a></li>
             <li><a href="#portfolio" class="nav-link">Dịch vụ</a></li>
+            <li><a href="#bank-accounts" class="nav-link">Thanh toán</a></li>
             <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
             <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
             <li><a href="#contact" class="nav-link">Liên hệ</a></li>
@@ -258,6 +277,50 @@
         </div>
     </div>
 </section>
+
+<!-- ========== START: Bank Accounts Section ========== -->
+<section id="bank-accounts" class="section">
+    <div class="container">
+        <h2 class="section-title fade-in">Thông Tin Thanh Toán</h2>
+        <div class="bank-accounts-grid">
+            <!-- Techcombank Card -->
+            <div class="bank-card fade-in">
+                <div class="bank-card-header">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Techcombank_logo.png/600px-Techcombank_logo.png" alt="[Image of Logo Techcombank]" class="bank-logo">
+                    <h3>Techcombank</h3>
+                </div>
+                <div class="bank-card-body">
+                    <p><strong>Chủ tài khoản:</strong> LÊ NGỌC TƯỜNG</p>
+                    <div class="account-number">
+                        <p><strong>STK:</strong> <span id="techcombank-acc">87435555555555</span></p>
+                        <button class="btn-copy" data-copy-target="techcombank-acc" title="Sao chép số tài khoản"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="bank-card-footer">
+                   <a href="https://mobile.techcombank.com.vn/bank/public/transfer/receive?stk=87435555555555&ten_tk=LE%20NGOC%20TUONG" class="btn btn--primary payment-button" target="_blank"><i class="fas fa-credit-card"></i> Thanh toán ngay</a>
+                </div>
+            </div>
+            <!-- Momo Card -->
+            <div class="bank-card fade-in">
+                <div class="bank-card-header">
+                    <img src="https://developers.momo.vn/v3/vi/assets/images/circle-logo-4fec3edddde4c441255fc90563a2ffda.png" alt="[Image of Logo Momo]" class="bank-logo">
+                    <h3>Ví điện tử MoMo</h3>
+                </div>
+                 <div class="bank-card-body">
+                    <p><strong>Chủ tài khoản:</strong> LÊ NGỌC TƯỜNG</p>
+                    <div class="account-number">
+                        <p><strong>SĐT:</strong> <span id="momo-acc">0365297935</span></p>
+                        <button class="btn-copy" data-copy-target="momo-acc" title="Sao chép số điện thoại"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <div class="bank-card-footer">
+                     <a href="https://nhantien.momo.vn/0365297935" class="btn btn--primary payment-button" target="_blank"><i class="fas fa-wallet"></i> Thanh toán ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========== END: Bank Accounts Section ========== -->
 
 <section id="skills" class="skills section">
     <div class="container">
@@ -544,6 +607,29 @@
                 if(hamburger && navMenu){
                     hamburger.classList.remove('active');
                     navMenu.classList.remove('active');
+                }
+            });
+        });
+        
+        document.querySelectorAll('.btn-copy').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.copyTarget;
+                const accountNumberElement = document.getElementById(targetId);
+                if (accountNumberElement) {
+                    const accountNumber = accountNumberElement.innerText;
+                    
+                    const textArea = document.createElement("textarea");
+                    textArea.value = accountNumber;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showToast(`Đã sao chép: ${accountNumber}`, 'success');
+                    } catch (err) {
+                        console.error('Fallback: Oops, unable to copy', err);
+                        showToast('Sao chép thất bại!', 'error');
+                    }
+                    document.body.removeChild(textArea);
                 }
             });
         });
