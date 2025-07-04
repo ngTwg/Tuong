@@ -73,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Service Card Interaction
     serviceCards.forEach(card => {
-        // Add overlay to all cards
         if (!card.querySelector('.contact-overlay')) {
             const overlay = document.createElement('div');
             overlay.className = 'contact-overlay';
@@ -86,27 +85,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 <a href="https://www.instagram.com/ngtu.ong14.11/" target="_blank" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
             `;
             
-            const button = card.querySelector('.btn');
-            if(button) button.remove(); // Remove button if it exists
-            
             card.appendChild(overlay);
         }
         
-        // Handle click for mobile overlay
         card.addEventListener('click', (e) => {
             if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                // Prevent toggling if a link inside the overlay is clicked
                 if (!e.target.closest('.contact-overlay a')) {
-                     // Close other open overlays
                      document.querySelectorAll('.service-card.overlay-active').forEach(openCard => {
                          if(openCard !== card) {
                              openCard.classList.remove('overlay-active');
                          }
                      });
-                     // Toggle current card
                      card.classList.toggle('overlay-active');
                 }
             }
         });
     });
 });
+
