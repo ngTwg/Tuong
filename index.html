@@ -3,643 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lê Ngọc Tường</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Lê Ngọc Tường - Dịch Vụ Premium</title>
+    <meta name="description" content="Dịch vụ và thông tin cá nhân của Lê Ngọc Tường">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --color-background: rgba(252, 252, 249, 1);
-            --color-surface: rgba(255, 255, 253, 1);
-            --color-text: rgba(19, 52, 59, 1);
-            --color-text-secondary: rgba(98, 108, 113, 1);
-            --color-primary: rgba(33, 128, 141, 1);
-            --color-primary-hover: rgba(29, 116, 128, 1);
-            --color-secondary: rgba(235, 241, 242, 1);
-            --color-border: rgba(220, 225, 226, 1);
-            --color-btn-primary-text: rgba(252, 252, 249, 1);
-            --color-error: rgba(192, 21, 47, 1);
-            --color-success: rgba(33, 128, 141, 1);
-            --color-focus-ring: rgba(33, 128, 141, 0.4);
-            --color-primary-glow: rgba(50, 184, 198, 0.3);
-        }
-
-        [data-color-scheme="dark"] {
-            --color-background: rgb(20, 22, 23);
-            --color-surface: rgba(31, 33, 33, 1);
-            --color-text: rgba(245, 245, 245, 1);
-            --color-text-secondary: rgba(167, 169, 169, 0.7);
-            --color-primary: rgba(50, 184, 198, 1);
-            --color-primary-hover: rgba(45, 166, 178, 1);
-            --color-secondary: rgba(28, 30, 31, 1);
-            --color-border: rgba(55, 58, 59, 1);
-            --color-btn-primary-text: rgba(19, 52, 59, 1);
-            --color-primary-glow: rgba(50, 184, 198, 0.4);
-        }
-
-        html { scroll-behavior: smooth; font-family: 'Inter', sans-serif; color: var(--color-text); background-color: var(--color-background); }
-        body { margin: 0; padding: 0; overflow-x: hidden; position: relative; }
-        .container { width: 90%; max-width: 1100px; margin: 0 auto; }
-
-        #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--color-background); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease-out; }
-        .loader { display: flex; gap: 10px; }
-        .loader .circle { width: 15px; height: 15px; border-radius: 50%; background-color: var(--color-primary); animation: bounce 1s infinite alternate; }
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
-
-        #particles-js { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; }
-
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; transition: all 0.3s ease; padding: 15px 0; background-color: transparent; }
-        .navbar.scrolled { background-color: var(--color-surface); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-bottom: 1px solid var(--color-border);}
-        .nav-container { display: flex; justify-content: space-between; align-items: center; width: 90%; max-width: 1100px; margin: 0 auto; }
-        .nav-logo { font-size: 28px; font-weight: 700; color: var(--color-primary); }
-        .nav-menu { display: flex; list-style: none; padding: 0; margin: 0; }
-        .nav-link { color: var(--color-text); text-decoration: none; margin: 0 15px; font-weight: 500; transition: all 0.3s ease; position: relative; padding: 5px 0; cursor: pointer; }
-        .nav-link:hover { color: var(--color-primary); }
-        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--color-primary); transition: width 0.3s ease; }
-        .nav-link:hover::after { width: 100%; }
-        .theme-toggle { background: var(--color-secondary); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; border: 1px solid var(--color-border);}
-        .hamburger { display: none; cursor: pointer; }
-        .hamburger span { display: block; width: 25px; height: 3px; background-color: var(--color-text); margin: 5px 0; border-radius: 3px; transition: all 0.3s ease; }
-
-        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background-color: var(--color-primary); width: 0%; z-index: 1001; transition: width 0.1s ease; }
-
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; overflow: hidden; }
-        .hero-content { max-width: 800px; z-index: 2; }
-        .hero-avatar { position: relative; width: 150px; height: 150px; margin: 0 auto 30px; }
-        .avatar-img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; z-index: 2; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        .avatar-ring { position: absolute; width: 150px; height: 150px; border-radius: 50%; border: 2px solid var(--color-primary); animation: pulse 2s infinite; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; } }
-        .hero-name { font-size: 48px; margin-bottom: 10px; }
-        .typing-text { font-weight: 700; }
-        .cursor { display: inline-block; width: 3px; background-color: var(--color-primary); animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .hero-title { font-size: 20px; color: var(--color-text-secondary); margin-bottom: 15px; }
-        .hero-description { font-size: 18px; max-width: 600px; margin: 0 auto 30px; }
-        .hero-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;}
-        .social-links { display: flex; justify-content: center; gap: 15px; }
-        .social-link { width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-secondary); display: flex; align-items: center; justify-content: center; color: var(--color-text); transition: all 0.3s ease; font-size: 16px; border: 1px solid var(--color-border);}
-        .social-link:hover { background-color: var(--color-primary); color: var(--color-btn-primary-text); transform: translateY(-3px); }
-
-        .section { padding: 100px 0; position: relative; }
-        .section-title { font-size: 36px; text-align: center; margin-bottom: 60px; position: relative; }
-        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background-color: var(--color-primary); }
-
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 30px; }
-        .skill-item { margin-bottom: 25px; }
-        .skill-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 500; }
-        .skill-bar { height: 8px; background-color: var(--color-secondary); border-radius: 4px; overflow: hidden; }
-        .skill-progress { height: 100%; background-color: var(--color-primary); border-radius: 4px; width: 0; transition: width 1.5s ease; }
-
-        #portfolio { background-color: var(--color-secondary); }
-        .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-        .service-card {
-            background-color: var(--color-surface); padding: 30px; border-radius: 12px; text-align: center;
-            border: 1px solid var(--color-border); transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative; overflow: hidden;
-        }
-        .service-card-content { transition: opacity 0.3s ease; }
-        .service-card:hover .service-card-content { opacity: 0.1; }
-        .service-card .service-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .service-card:hover .service-overlay { opacity: 1; visibility: visible; }
-        .service-overlay .contact-links { display: flex; gap: 20px; }
-        .service-overlay .contact-links a { color: var(--color-primary); font-size: 24px; transition: transform 0.2s ease; }
-        .service-overlay .contact-links a:hover { transform: scale(1.2); }
-        .service-icon { font-size: 48px; color: var(--color-primary); margin-bottom: 20px; }
-        .service-card h3 { font-size: 22px; color: var(--color-primary); margin-bottom: 15px; }
-        .service-card p { color: var(--color-text-secondary); line-height: 1.6; font-size: 16px; }
-
-        #testimonials { background-color: var(--color-background); }
-        .testimonials-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .testimonial-card { background-color: var(--color-surface); padding: 25px; border-radius: 12px; border: 1px solid var(--color-border); }
-        .testimonial-card p { font-style: italic; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 15px; font-size: 16px;}
-        .testimonial-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--color-border); }
-        .testimonial-footer h4 { margin: 0; font-weight: 600; color: var(--color-primary); font-size: 16px; }
-        .testimonial-date { font-size: 12px; color: var(--color-text-secondary); }
-        #testimonials-loader { text-align: center; padding: 20px; }
-        .review-form-container { max-width: 700px; margin: 40px auto 0; padding: 30px; background-color: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-border);}
-        .review-form-container h3 { text-align: center; margin-bottom: 25px; }
-
-        .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .contact-info p { margin-bottom: 20px; line-height: 1.7; }
-        .contact-info h3 { margin-bottom: 20px; font-size: 28px; }
-        .contact-details { margin-top: 30px; }
-        .contact-item { display: flex; align-items: flex-start; margin-bottom: 25px; }
-        .contact-item i { width: 40px; height: 40px; background-color: var(--color-secondary); color: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 16px; }
-        .contact-item h4 { margin-bottom: 5px; font-size: 18px; }
-        .contact-item p { margin-bottom: 0; color: var(--color-text-secondary); }
-
-        .form-control { background-color: var(--color-secondary); border: 1px solid var(--color-border); padding: 15px; border-radius: 8px; width: 100%; transition: all 0.3s ease; color: var(--color-text); font-family: 'Inter', sans-serif; font-size: 16px; }
-        .form-control:focus { border-color: var(--color-primary); background-color: var(--color-surface); box-shadow: 0 0 0 3px var(--color-focus-ring); outline: none;}
-        textarea.form-control { resize: vertical; min-height: 120px; }
-        .form-group { margin-bottom: 20px; }
-
-        .footer { background-color: var(--color-surface); padding: 60px 0 20px; }
-        .footer-content { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;}
-        .footer-brand p { margin: 0; color: var(--color-text-secondary); }
-        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--color-border); }
-        .footer-bottom p { margin: 0; }
-
-        .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; border: none; z-index: 99; }
-        .back-to-top.show { opacity: 1; transform: translateY(0); }
-
-        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; border: none; text-decoration: none; }
-        .btn i { margin-right: 8px; }
-        .btn--primary { background: var(--color-primary); color: var(--color-btn-primary-text); }
-        .btn--primary:hover { background: var(--color-primary-hover); }
-        .btn--full-width { width: 100%; }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .toast-notification { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 12px 20px; border-radius: 8px; color: white; font-size: 14px; z-index: 3000; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .toast-notification.show { opacity: 1; transform: translate(-50%, -10px); }
-        .toast-notification.success { background-color: var(--color-success); }
-        .toast-notification.error { background-color: var(--color-error); }
-
-        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .fade-in.show { opacity: 1; transform: translateY(0); }
-        
-        #bank-accounts { background-color: var(--color-background); }
-        .bank-accounts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; justify-content: center; }
-        .bank-card { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; text-align: center; padding: 25px; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; align-items: center; }
-        .bank-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .bank-card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .bank-logo { height: 40px; width: auto; border-radius: 8px; }
-        .bank-card-header h3 { margin: 0; font-size: 22px; }
-        .bank-card-body { flex-grow: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; }
-        .bank-card-body p { margin: 0 0 10px; color: var(--color-text-secondary); }
-        .bank-card-body p strong { color: var(--color-text); }
-        .account-number { display: flex; align-items: center; justify-content: center; background-color: var(--color-secondary); border-radius: 8px; padding: 8px 15px; width: fit-content; margin: 0 auto; }
-        .account-number p { margin: 0; }
-        .account-number span { font-weight: 600; color: var(--color-primary); letter-spacing: 1px; }
-        .btn-copy { background: transparent; border: none; color: var(--color-text); cursor: pointer; font-size: 16px; margin-left: 10px; padding: 5px; transition: color 0.3s ease; }
-        .btn-copy:hover { color: var(--color-primary); }
-        .bank-card-footer { margin-top: 20px; width: 100%; }
-        .payment-button { margin-top: 15px; width: 100%; max-width: 250px; }
-
-
-        @media (max-width: 991px) {
-            .nav-menu { position: fixed; top: -100%; left: 0; width: 100%; background-color: var(--color-surface); flex-direction: column; align-items: center; padding: 20px 0; transition: all 0.3s ease; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
-            .nav-menu.active { top: 70px; }
-            .hamburger { display: block; }
-            .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-            .hamburger.active span:nth-child(2) { opacity: 0; }
-            .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-            .contact-content { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            .section { padding: 70px 0; }
-            .service-grid, .testimonials-container, .skills-grid, .bank-accounts-grid { grid-template-columns: 1fr; }
-            .footer-content { flex-direction: column; text-align: center; }
-            .hero-name { font-size: 36px; }
-            .hero-buttons { flex-direction: column; gap: 10px; width: 80%; margin: 30px auto; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="loading-screen"><div class="loader"><div class="circle"></div><div class="circle"></div><div class="circle"></div><div class="circle"></div></div><p>Đang tải...</p></div>
-<div id="particles-js"></div>
-
-<nav class="navbar" id="navbar">
-    <div class="nav-container">
-        <div class="nav-logo"><span>Tuong</span></div>
-        <ul class="nav-menu">
-            <li><a href="#home" class="nav-link">Trang chủ</a></li>
-            <li><a href="#portfolio" class="nav-link">Dịch vụ</a></li>
-            <li><a href="#bank-accounts" class="nav-link">Thanh toán</a></li>
-            <li><a href="#skills" class="nav-link">Kỹ năng</a></li>
-            <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
-            <li><a href="#contact" class="nav-link">Liên hệ</a></li>
-        </ul>
-        <div class="theme-toggle"><i class="fas fa-sun" id="theme-icon"></i></div>
-        <div class="hamburger"><span></span><span></span><span></span></div>
+    <div id="loading-screen">
+        <div class="loader">LNT</div>
     </div>
-</nav>
+    <div id="particles-js"></div>
 
-<div class="progress-bar" id="progress-bar"></div>
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <div class="nav-logo">Lê Ngọc Tường</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Trang chủ</a></li>
+                <li><a href="#services" class="nav-link">Dịch vụ</a></li>
+                <li><a href="#testimonials" class="nav-link">Đánh giá</a></li>
+                <li><a href="#contact" class="nav-link">Liên hệ</a></li>
+                <li><a href="#payment" class="nav-link">Thanh Toán</a></li>
+            </ul>
+        </div>
+    </nav>
 
-<section id="home" class="hero">
-    <div class="hero-content">
-        <div class="hero-avatar">
-            <img src="https://res.cloudinary.com/dauchcbor/image/upload/v1749579422/z6691586368822_1e7ab0b6e962ea16132c684b0406c5c3_kpeel1.jpg" alt="Lê Ngọc Tường" class="avatar-img">
-            <div class="avatar-ring"></div>
-        </div>
-        <h1 class="hero-name"><span class="typing-text" id="typing-text"></span><span class="cursor">|</span></h1>
-        <p class="hero-title">Buôn May Bán Dạo</p>
-        <p class="hero-description">Nhà bán hàng uy tín nhưng nghèo nhất quả đất !!</p>
-        <div class="hero-buttons">
-            <button class="btn btn--primary" id="hero-contact-btn"><i class="fas fa-paper-plane"></i>Liên Hệ</button>
-            <button class="btn btn--primary" id="view-portfolio-btn"><i class="fas fa-briefcase"></i>Xem Dịch Vụ</button>
-        </div>
-        <div class="social-links">
-            <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://github.com/ngTwg" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://www.instagram.com/ngtu.ong14.11/" target="_blank" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://zalo.me/0365297935" target="_blank" class="social-link" title="Zalo"><i class="fas fa-comment"></i></a>
-        </div>
-    </div>
-</section>
-
-<section id="portfolio" class="portfolio section">
-    <div class="container">
-        <h2 class="section-title fade-in">Dịch vụ</h2>
-        <div class="service-grid">
-            <div class="service-card fade-in">
-                <div class="service-card-content">
-                    <i class="fab fa-google service-icon"></i>
-                    <h3>Google</h3>
-                    <p>Google One 2TB EDU, 5TB 2029/150k</p>
-                </div>
-                <div class="service-overlay">
-                    <div class="contact-links">
-                        <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="mailto:lengoctuong2005@gmail.com" title="Gmail"><i class="fas fa-envelope"></i></a>
-                        <a href="https://zalo.me/0365297935" target="_blank" title="Zalo"><i class="fas fa-comment"></i></a>
-                    </div>
-                </div>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-avatar">
+                <img src="https://res.cloudinary.com/dauchcbor/image/upload/v1749579422/z6691586368822_1e7ab0b6e962ea16132c684b0406c5c3_kpeel1.jpg" alt="Lê Ngọc Tường" class="avatar-img">
+                <div class="avatar-ring"></div>
             </div>
-            <div class="service-card fade-in">
-                <div class="service-card-content">
-                    <i class="fas fa-robot service-icon"></i>
-                    <h3>ChatGPT Plus</h3>
-                    <p>Chat GPT Plus 1 tháng/70k</p>
-                </div>
-                <div class="service-overlay">
-                    <div class="contact-links">
-                        <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="mailto:lengoctuong2005@gmail.com" title="Gmail"><i class="fas fa-envelope"></i></a>
-                        <a href="https://zalo.me/0365297935" target="_blank" title="Zalo"><i class="fas fa-comment"></i></a>
-                    </div>
-                </div>
+            <h1 class="hero-name">Lê Ngọc Tường</h1>
+            <p class="hero-description">Nhà bán hàng uy tín nhưng nghèo nhất quả đất !!</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn--primary">Liên Hệ</a>
+                <a href="#services" class="btn btn--secondary">Xem Dịch Vụ</a>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ========== START: Bank Accounts Section ========== -->
-<section id="bank-accounts" class="section">
-    <div class="container">
-        <h2 class="section-title fade-in">Thông Tin Thanh Toán</h2>
-        <div class="bank-accounts-grid">
-            <!-- Techcombank Card -->
-            <div class="bank-card fade-in">
-                <div class="bank-card-header">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Techcombank_logo.png/600px-Techcombank_logo.png" alt="[Image of Logo Techcombank]" class="bank-logo">
-                    <h3>Techcombank</h3>
-                </div>
-                <div class="bank-card-body">
-                    <p><strong>Chủ tài khoản:</strong> LÊ NGỌC TƯỜNG</p>
-                    <div class="account-number">
-                        <p><strong>STK:</strong> <span id="techcombank-acc">87435555555555</span></p>
-                        <button class="btn-copy" data-copy-target="techcombank-acc" title="Sao chép số tài khoản"><i class="fas fa-copy"></i></button>
-                    </div>
-                </div>
-                <div class="bank-card-footer">
-                   <a href="https://mobile.techcombank.com.vn/bank/public/transfer/receive?stk=87435555555555&ten_tk=LE%20NGOC%20TUONG" class="btn btn--primary payment-button" target="_blank"><i class="fas fa-credit-card"></i> Thanh toán ngay</a>
-                </div>
-            </div>
-            <!-- Momo Card -->
-            <div class="bank-card fade-in">
-                <div class="bank-card-header">
-                    <img src="https://developers.momo.vn/v3/vi/assets/images/circle-logo-4fec3edddde4c441255fc90563a2ffda.png" alt="[Image of Logo Momo]" class="bank-logo">
-                    <h3>Ví điện tử MoMo</h3>
-                </div>
-                 <div class="bank-card-body">
-                    <p><strong>Chủ tài khoản:</strong> LÊ NGỌC TƯỜNG</p>
-                    <div class="account-number">
-                        <p><strong>SĐT:</strong> <span id="momo-acc">0365297935</span></p>
-                        <button class="btn-copy" data-copy-target="momo-acc" title="Sao chép số điện thoại"><i class="fas fa-copy"></i></button>
-                    </div>
-                </div>
-                <div class="bank-card-footer">
-                     <a href="https://nhantien.momo.vn/0365297935" class="btn btn--primary payment-button" target="_blank"><i class="fas fa-wallet"></i> Thanh toán ngay</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ========== END: Bank Accounts Section ========== -->
-
-<section id="skills" class="skills section">
-    <div class="container">
-        <h2 class="section-title fade-in">Kỹ năng chuyên môn</h2>
-        <div class="skills-grid">
-            <div class="skill-item fade-in"><div class="skill-info"><span>GG</span><span>95%</span></div><div class="skill-bar"><div class="skill-progress" data-width="95"></div></div></div>
-            <div class="skill-item fade-in"><div class="skill-info"><span>GPT</span><span>90%</span></div><div class="skill-bar"><div class="skill-progress" data-width="90"></div></div></div>
-            <div class="skill-item fade-in"><div class="skill-info"><span>SCAM</span><span>85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
-            <div class="skill-item fade-in"><div class="skill-info"><span>Nghèo</span><span>80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
-            <div class="skill-item fade-in"><div class="skill-info"><span>UY TÍN</span><span>88%</span></div><div class="skill-bar"><div class="skill-progress" data-width="88"></div></div></div>
-            <div class="skill-item fade-in"><div class="skill-info"><span>C/C++</span><span>98%</span></div><div class="skill-bar"><div class="skill-progress" data-width="98"></div></div></div>
-        </div>
-    </div>
-</section>
-
-<section id="testimonials" class="testimonials section">
-    <div class="container">
-        <h2 class="section-title fade-in">Đánh giá từ khách hàng</h2>
-        <div id="testimonials-loader"><p>Đang tải đánh giá...</p></div>
-        <div class="testimonials-container" id="testimonials-container"></div>
-        <div class="review-form-container fade-in">
-            <h3>Gửi đánh giá của bạn</h3>
-            <form id="review-form">
-                <div class="form-group"><input type="text" class="form-control" name="reviewer_name" placeholder="Họ và tên (không bắt buộc)"></div>
-                <div class="form-group"><textarea class="form-control" name="review_content" rows="4" placeholder="Nội dung đánh giá của bạn..." required></textarea></div>
-                <button type="submit" class="btn btn--primary btn--full-width" id="submit-review-btn"><i class="fas fa-paper-plane"></i>Gửi đánh giá</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<section id="contact" class="contact section">
-    <div class="container">
-        <h2 class="section-title fade-in">Liên hệ với tôi</h2>
-        <div class="contact-content">
-            <div class="contact-info fade-in">
-                <h3>Hãy bắt đầu cuộc trò chuyện</h3>
-                <p>Tôi luôn sẵn sàng thảo luận về các dự án mới, cơ hội sáng tạo hoặc hợp tác.</p>
-                <div class="contact-details">
-                    <div class="contact-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p>lengoctuong2005@gmail.com</p></div></div>
-                    <div class="contact-item"><i class="fas fa-phone"></i><div><h4>Điện thoại</h4><p>+84 365 297 935</p></div></div>
-                    <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><h4>Địa chỉ</h4><p>Thành phố Hồ Chí Minh, Việt Nam</p></div></div>
-                </div>
-            </div>
-            <form class="contact-form fade-in" id="contact-form">
-                <div class="form-group"><input type="text" class="form-control" name="name" placeholder="Họ và tên" required></div>
-                <div class="form-group"><input type="email" class="form-control" name="email" placeholder="Email" required></div>
-                <div class="form-group"><input type="text" class="form-control" name="subject" placeholder="Chủ đề" required></div>
-                <div class="form-group"><textarea class="form-control" name="message" rows="5" placeholder="Tin nhắn" required></textarea></div>
-                <button type="submit" class="btn btn--primary btn--full-width" id="submit-contact-form"><i class="fas fa-paper-plane"></i>Gửi tin nhắn</button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-brand"><h3>Lê Ngọc Tường</h3><p>Bán mọi thứ</p></div>
-            <div class="social-links">
-                <a href="https://www.facebook.com/ngtu.ong14.11" target="_blank" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://m.me/ngtu.ong14.11" target="_blank" class="social-link" title="Messenger"><i class="fab fa-facebook-messenger"></i></a>
-                <a href="https://zalo.me/0365297935" target="_blank" class="social-link" title="Zalo"><i class="fas fa-comment"></i></a>
-                <a href="mailto:lengoctuong2005@gmail.com" class="social-link" title="Gmail"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/ngTwg" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://www.instagram.com/ngtu.ong14.11/" target="_blank" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2025 Tuong.</p></div>
-    </div>
-</footer>
-
-<button class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up"></i></button>
-<div id="toast-notification" class="toast-notification"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- CONSTANTS ---
-        const CONTACT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1Osj2qT2bzKu5rglusp3NBZzsYLcxytJ6Ig7zKmVIYBhgNzPj_o8w3x4s1T2bEiE4/exec';
-        const REVIEW_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqEFdI91r2tg5gnWynUSbtcxzMc8erny_BTjbtNYpAoar00x4fMF44BtyZWrau-rqg/exec';
-
-        // --- DOM Elements ---
-        const loadingScreen = document.getElementById('loading-screen');
-        const navbar = document.getElementById('navbar');
-        const progressBar = document.getElementById('progress-bar');
-        const backToTopBtn = document.getElementById('back-to-top');
-        const themeIcon = document.getElementById('theme-icon');
-        const typingText = document.getElementById('typing-text');
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-        const contactForm = document.getElementById('contact-form');
-        const reviewForm = document.getElementById('review-form');
-        const testimonialsContainer = document.getElementById('testimonials-container');
-        const testimonialsLoader = document.getElementById('testimonials-loader');
-        const heroContactBtn = document.getElementById('hero-contact-btn');
-        const viewPortfolioBtn = document.getElementById('view-portfolio-btn');
-        const skillProgressBars = document.querySelectorAll('.skill-progress');
-
-        // --- Global Variables & Initial Setup ---
-        let isLoading = true;
-        let isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (isDarkMode) {
-            document.documentElement.setAttribute('data-color-scheme', 'dark');
-            if(themeIcon) themeIcon.className = 'fas fa-moon';
-        }
-
-        particlesJS('particles-js', { particles: { number: { value: 80, density: { enable: true, value_area: 800 } }, color: { value: isDarkMode ? '#32b8c6' : '#21808d' }, shape: { type: 'circle' }, opacity: { value: 0.5 }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: isDarkMode ? '#32b8c6' : '#21808d', opacity: 0.4, width: 1 }, move: { enable: true, speed: 2, direction: 'none', out_mode: 'out' } }, interactivity: { events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } }, modes: { grab: { distance: 140, line_linked: { opacity: 1 } }, push: { particles_nb: 4 } } }, retina_detect: true });
-
-        // --- Functions ---
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast-notification');
-            if(!toast) return;
-            toast.textContent = message;
-            toast.className = 'toast-notification';
-            toast.classList.add(type, 'show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        function typeWriter() {
-            if(!typingText) return;
-            let textIndex = 0;
-            const textToType = 'Lê Ngọc Tường';
-            function type() {
-                if (textIndex < textToType.length) {
-                    typingText.textContent += textToType.charAt(textIndex);
-                    textIndex++;
-                    setTimeout(type, 150);
-                }
-            }
-            type();
-        }
-
-        function checkElementsInViewport() {
-            document.querySelectorAll('.fade-in').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9) {
-                    el.classList.add('show');
-                }
-            });
-            skillProgressBars.forEach(bar => {
-                if(!bar) return;
-                const rect = bar.getBoundingClientRect();
-                if (rect.top <= (window.innerHeight || document.documentElement.clientHeight)) {
-                    bar.style.width = bar.dataset.width + '%';
-                }
-            });
-        }
-
-        function formatDate(isoString) {
-            if (!isoString) return '';
-            const date = new Date(isoString);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
-
-        async function loadReviews() {
-            if(!testimonialsLoader || !testimonialsContainer) return;
-            testimonialsLoader.style.display = 'block';
-            testimonialsContainer.innerHTML = '';
-
-            if (REVIEW_SCRIPT_URL.includes('YOUR_REVIEW_SCRIPT_URL_HERE')) {
-                testimonialsLoader.innerHTML = '<p>Chức năng đánh giá chưa được cấu hình.</p>';
-                return;
-            }
-            try {
-                const response = await fetch(REVIEW_SCRIPT_URL);
-                if (!response.ok) throw new Error('Network response was not ok');
-                const reviews = await response.json();
-
-                if (reviews && Array.isArray(reviews) && reviews.length > 0) {
-                    reviews.forEach(review => {
-                        const card = document.createElement('div');
-                        card.className = 'testimonial-card fade-in';
-                        card.innerHTML = `
-                            <p>"${review.content}"</p>
-                            <div class="testimonial-footer">
-                                <h4>- ${review.name}</h4>
-                                <small class="testimonial-date">${formatDate(review.timestamp)}</small>
+    <section id="services" class="services section">
+        <div class="container">
+            <h2 class="section-title">Bảng Giá Dịch Vụ</h2>
+            <div class="services-grid">
+                <!-- Google One -->
+                <div class="service-card fade-in">
+                    <div class="service-content-wrapper">
+                        <div class="service-main-content">
+                            <div class="service-header">
+                                <h3 class="service-card-title">Google One 12 Tháng</h3>
+                                <div class="service-price">229K VND</div>
                             </div>
-                        `;
-                        testimonialsContainer.appendChild(card);
-                    });
-                    testimonialsLoader.style.display = 'none';
-                } else {
-                    testimonialsLoader.innerHTML = '<p>Chưa có đánh giá nào. Hãy là người đầu tiên!</p>';
-                }
-            } catch (error) {
-                console.error('Failed to load reviews:', error);
-                testimonialsLoader.innerHTML = '<p>Không thể tải đánh giá. Vui lòng thử lại sau.</p>';
-            } finally {
-                checkElementsInViewport();
-            }
-        }
+                            <p class="service-description">Bảo hành 15 ngày, Mua 5 tặng 1 ChatGPT Plus + 1 TK Bithub.</p>
+                            <ul class="service-features">
+                                <li>2TB lưu trữ đám mây</li>
+                                <li>Hỗ trợ premium cho Google</li>
+                                <li>Bảo hành 15 ngày</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-        async function handleFormSubmit(form, url, successCallback) {
-            if(!form) return;
-            const submitButton = form.querySelector('button[type="submit"]');
-            if (url.includes('YOUR_SCRIPT_URL_HERE')) {
-                showToast('Chức năng chưa được cấu hình đúng.', 'error');
-                return;
-            }
+                <!-- Gói Marketing -->
+                <div class="service-card fade-in">
+                    <div class="service-content-wrapper">
+                        <div class="service-main-content">
+                            <div class="service-header">
+                                <h3 class="service-card-title">Gói Marketing</h3>
+                                <div class="service-price">299K VND</div>
+                            </div>
+                            <p class="service-description">Tài khoản Bithub không giới hạn 10 năm.</p>
+                            <ul class="service-features">
+                                <li>Tài khoản Bithub premium</li>
+                                <li>Hỗ trợ marketing tools</li>
+                                <li>Analytics reports</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-            const originalButtonContent = submitButton.innerHTML;
-            submitButton.disabled = true;
-            submitButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Đang gửi...`;
+                <!-- Perplexity Pro -->
+                <div class="service-card fade-in">
+                    <div class="service-content-wrapper">
+                        <div class="service-main-content">
+                            <div class="service-header">
+                                <h3 class="service-card-title">Perplexity Pro 1 Năm</h3>
+                                <div class="service-price">499K VND</div>
+                            </div>
+                            <p class="service-description">Full model Pro (GPT-4.1, Claude 4.0, Gemini 2.5, O3...).</p>
+                            <ul class="service-features">
+                                <li>AI search unlimited</li>
+                                <li>50 lần/tháng research</li>
+                                <li>Full model Pro access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-            try {
-                const response = await fetch(url, { method: 'POST', body: new FormData(form) });
-                const result = await response.json();
-                if (!response.ok || result.result !== 'success') {
-                    throw new Error(result.error || 'Unknown submission error');
-                }
+                <!-- Siêu Cấp Share Family -->
+                <div class="service-card fade-in">
+                    <div class="service-content-wrapper">
+                        <div class="service-main-content">
+                            <div class="service-header">
+                                <h3 class="service-card-title">Siêu Cấp Share Family</h3>
+                                <div class="service-price-range">199K - 999K VND</div>
+                            </div>
+                            <div class="service-packages">
+                                <div class="package-option"><span class="package-duration">1 tháng</span><span class="package-price">199K</span></div>
+                                <div class="package-option"><span class="package-duration">3 tháng</span><span class="package-price">399K</span></div>
+                                <div class="package-option"><span class="package-duration">6 tháng</span><span class="package-price">499K</span></div>
+                                <div class="package-option"><span class="package-duration">12 tháng</span><span class="package-price">999K</span></div>
+                            </div>
+                            <p class="service-description">Full bảo hành, Full tiện ích: Youtube Premium, 2TB, Gemini Pro.</p>
+                        </div>
+                    </div>
+                </div>
 
-                showToast('Gửi thành công!', 'success');
-                form.reset();
-                if (successCallback) successCallback();
+                <!-- Siêu Cấp Family Cá Nhân -->
+                <div class="service-card fade-in">
+                    <div class="service-content-wrapper">
+                        <div class="service-main-content">
+                            <div class="service-header">
+                                <h3 class="service-card-title">Siêu Cấp Family Cá Nhân</h3>
+                                <div class="service-price-range">299K - 1699K VND</div>
+                            </div>
+                            <div class="service-packages">
+                                <div class="package-option"><span class="package-duration">1 tháng</span><span class="package-price">299K</span></div>
+                                <div class="package-option"><span class="package-duration">3 tháng</span><span class="package-price">699K</span></div>
+                                <div class="package-option"><span class="package-duration">6 tháng</span><span class="package-price">1000K</span></div>
+                                <div class="package-option"><span class="package-duration">12 tháng</span><span class="package-price">1699K</span></div>
+                            </div>
+                            <p class="service-description">Full bảo hành, Full tiện ích: Youtube Premium, 2TB, Gemini Pro.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                showToast('Có lỗi xảy ra, vui lòng thử lại.', 'error');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonContent;
-            }
-        }
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 class="section-title">Đánh giá từ khách hàng</h2>
+            <div class="testimonials-container">
+                <div class="testimonial-card fade-in"><p>"Dịch vụ tuyệt vời, giá cả hợp lý. Anh Tường rất nhiệt tình và uy tín!"</p></div>
+                <div class="testimonial-card fade-in"><p>"Mua Google One rất tiện lợi, setup nhanh chóng. Sẽ ủng hộ tiếp!"</p></div>
+                <div class="testimonial-card fade-in"><p>"Perplexity Pro hoạt động perfect, giá rẻ hơn mua trực tiếp nhiều."</p></div>
+            </div>
+        </div>
+    </section>
 
-        // --- Event Listeners ---
-        window.addEventListener('load', () => {
-            if(!loadingScreen) return;
-            setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    isLoading = false;
-                    typeWriter();
-                    loadReviews();
-                    checkElementsInViewport();
-                }, 500);
-            }, 1000);
-        });
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Liên hệ</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Hãy bắt đầu cuộc trò chuyện</h3>
+                    <p>Tôi luôn sẵn sàng thảo luận về các dự án mới, cơ hội sáng tạo hoặc hợp tác.</p>
+                    <div class="contact-details">
+                        <div class="contact-item"><i class="fas fa-envelope"></i><p>lengoctuong2005@gmail.com</p></div>
+                        <div class="contact-item"><i class="fas fa-phone"></i><p>+84 365 297 935</p></div>
+                        <div class="contact-item"><i class="fas fa-map-marker-alt"></i><p>Thành phố Hồ Chí Minh, Việt Nam</p></div>
+                    </div>
+                </div>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group"><input type="text" class="form-control" name="name" placeholder="Họ và tên" required></div>
+                    <div class="form-group"><input type="email" class="form-control" name="email" placeholder="Email" required></div>
+                    <div class="form-group"><textarea class="form-control" name="message" rows="5" placeholder="Tin nhắn" required></textarea></div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Gửi tin nhắn</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-        window.addEventListener('scroll', () => {
-            if(isLoading) return;
-            if(navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
-            if(progressBar){
-                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-                progressBar.style.width = (window.scrollY / scrollHeight) * 100 + '%';
-            }
-            if(backToTopBtn) backToTopBtn.classList.toggle('show', window.scrollY > 300);
-            checkElementsInViewport();
-        });
+    <section class="payment" id="payment">
+        <div class="container">
+            <h2 class="section-title">Phương Thức Thanh Toán</h2>
+            <div class="payment-methods">
+                <div class="payment-card">
+                    <h3 class="payment-title">Techcombank</h3>
+                    <div class="payment-info">
+                        <span class="payment-number">87435555555555</span>
+                        <button class="btn btn--secondary copy-btn" data-copy="87435555555555">Sao Chép</button>
+                    </div>
+                </div>
+                <div class="payment-card">
+                    <h3 class="payment-title">MoMo</h3>
+                    <div class="payment-info">
+                        <span class="payment-number">0365297935</span>
+                        <button class="btn btn--secondary copy-btn" data-copy="0365297935">Sao Chép</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        if(backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    <footer class="footer">
+        <p>&copy; 2025 Lê Ngọc Tường. All rights reserved.</p>
+    </footer>
 
-        if(themeIcon) themeIcon.parentElement.addEventListener('click', () => {
-            isDarkMode = !isDarkMode;
-            const scheme = isDarkMode ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-color-scheme', scheme);
-            themeIcon.className = `fas ${isDarkMode ? 'fa-moon' : 'fa-sun'}`;
-            if (window.pJSDom && window.pJSDom[0]) {
-                const color = isDarkMode ? '#32b8c6' : '#21808d';
-                window.pJSDom[0].pJS.particles.color.value = color;
-                window.pJSDom[0].pJS.particles.line_linked.color = color;
-                window.pJSDom[0].pJS.fn.particlesRefresh();
-            }
-        });
-
-        if(hamburger && navMenu) hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
-                }
-                if(hamburger && navMenu){
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                }
-            });
-        });
-        
-        document.querySelectorAll('.btn-copy').forEach(button => {
-            button.addEventListener('click', () => {
-                const targetId = button.dataset.copyTarget;
-                const accountNumberElement = document.getElementById(targetId);
-                if (accountNumberElement) {
-                    const accountNumber = accountNumberElement.innerText;
-                    
-                    const textArea = document.createElement("textarea");
-                    textArea.value = accountNumber;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    try {
-                        document.execCommand('copy');
-                        showToast(`Đã sao chép: ${accountNumber}`, 'success');
-                    } catch (err) {
-                        console.error('Fallback: Oops, unable to copy', err);
-                        showToast('Sao chép thất bại!', 'error');
-                    }
-                    document.body.removeChild(textArea);
-                }
-            });
-        });
-
-        if(heroContactBtn) heroContactBtn.addEventListener('click', () => document.querySelector('#contact').scrollIntoView({ behavior: 'smooth', block: 'start' }));
-        if(viewPortfolioBtn) viewPortfolioBtn.addEventListener('click', () => document.querySelector('#portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' }));
-
-        if(contactForm) contactForm.addEventListener('submit', (e) => { e.preventDefault(); handleFormSubmit(contactForm, CONTACT_SCRIPT_URL); });
-        if(reviewForm) reviewForm.addEventListener('submit', (e) => { e.preventDefault(); handleFormSubmit(reviewForm, REVIEW_SCRIPT_URL, loadReviews); });
-    });
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
