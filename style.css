@@ -67,43 +67,55 @@ body {
 }
 .hero-content { width: 100%; }
 
-/* === FIX AVATAR === */
+/* === FIX AVATAR V2 === */
 .hero-avatar {
-    position: relative;
+    position: relative; /* Context cho các phần tử con */
     width: 150px;
     height: 150px;
     margin: 0 auto 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.avatar-img,
+.avatar-ring {
+    /* Căn giữa cả 2 phần tử một cách hoàn hảo */
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 
 .avatar-img {
+    transform: translate(-50%, -50%); /* Căn giữa chính nó */
     width: 130px;
     height: 130px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--color-primary);
     box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
-    z-index: 2; /* Đảm bảo ảnh nằm trên vòng animation */
+    z-index: 2; /* Ảnh nằm trên */
 }
 
 .avatar-ring {
-    position: absolute;
-    width: 100%; /* 150px */
-    height: 100%; /* 150px */
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: 2px solid var(--color-primary);
     animation: pulse-avatar 2s infinite;
-    top: 0;
-    left: 0;
-    z-index: 1;
+    z-index: 1; /* Vòng nằm dưới */
 }
 
 @keyframes pulse-avatar {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
 }
 /* === END FIX AVATAR === */
 
