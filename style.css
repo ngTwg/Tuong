@@ -66,18 +66,48 @@ body {
     padding: 0 20px;
 }
 .hero-content { width: 100%; }
-.hero-avatar { position: relative; width: 150px; height: 150px; margin: 0 auto 30px; }
-.avatar-img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-primary); box-shadow: 0 0 20px rgba(88, 166, 255, 0.5); }
+
+/* === FIX AVATAR === */
+.hero-avatar {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-primary);
+    box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
+    z-index: 2; /* Đảm bảo ảnh nằm trên vòng animation */
+}
+
 .avatar-ring {
     position: absolute;
-    width: 150px; height: 150px;
+    width: 100%; /* 150px */
+    height: 100%; /* 150px */
     border-radius: 50%;
     border: 2px solid var(--color-primary);
     animation: pulse-avatar 2s infinite;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
-@keyframes pulse-avatar { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+
+@keyframes pulse-avatar {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+/* === END FIX AVATAR === */
+
+
 .hero-name { font-size: 48px; font-weight: 700; margin-bottom: 16px; color: var(--color-text); }
 .hero-description { font-size: 20px; color: var(--color-text-secondary); margin-bottom: 32px; font-style: italic; }
 .hero-buttons { display: flex; justify-content: center; gap: 16px; }
@@ -160,9 +190,56 @@ body {
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.show { opacity: 1; transform: translateY(0); }
 
+/* === MODAL STYLES === */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(13, 17, 23, 0.8);
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background-color: var(--color-surface);
+    margin: 15% auto;
+    padding: 30px;
+    border: 1px solid var(--color-border);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: slide-down 0.5s ease-out;
+}
+@keyframes slide-down { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.close-button {
+    color: var(--color-text-secondary);
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-button:hover, .close-button:focus { color: var(--color-text); }
+.modal-title { font-size: 24px; color: var(--color-primary); margin-bottom: 20px; }
+.modal-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    display: none;
+}
+.modal-message.success { background-color: rgba(46, 160, 67, 0.2); color: #58f17a; }
+.modal-message.error { background-color: rgba(248, 81, 73, 0.2); color: #f85149; }
+.modal-message.loading { background-color: rgba(88, 166, 255, 0.2); color: var(--color-primary); }
+
 @media (max-width: 768px) {
     .nav-menu { display: none; }
     .hero-name { font-size: 36px; }
     .services-grid, .payment-methods, .contact-content { grid-template-columns: 1fr; }
+    .modal-content { margin: 25% auto; }
 }
-
