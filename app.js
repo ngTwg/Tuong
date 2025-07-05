@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceCards = document.querySelectorAll('.service-card');
 
     // --- CÁC BIẾN CHO FORM VÀ MODAL ---
-    const GAS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // !!! THAY THẾ URL CỦA BẠN VÀO ĐÂY
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbw3HftZuDsLPSSTjeoLJiieYB0yYkCPgx9fsKuiP0HnE0BelD2csaNToOwPVu9TrjW1Ww/exec'; // !!! THAY THẾ URL CỦA BẠN VÀO ĐÂY
     const modal = document.getElementById('form-modal');
     const modalBody = document.getElementById('modal-body');
     const modalMessage = document.getElementById('modal-message');
