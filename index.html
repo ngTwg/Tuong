@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Màn hình tải trang -->
     <div id="loading-screen">
         <div class="loader">LNT</div>
     </div>
     <div id="particles-js"></div>
 
+    <!-- Thanh điều hướng -->
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
             <div class="nav-logo">Lê Ngọc Tường</div>
@@ -27,6 +29,7 @@
         </div>
     </nav>
 
+    <!-- Phần Hero -->
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="hero-avatar">
@@ -42,6 +45,7 @@
         </div>
     </section>
 
+    <!-- Phần Dịch vụ -->
     <section id="services" class="services section">
         <div class="container">
             <h2 class="section-title">Bảng Giá Dịch Vụ</h2>
@@ -141,20 +145,23 @@
         </div>
     </section>
 
+    <!-- Phần Đánh giá -->
     <section id="testimonials" class="section">
         <div class="container">
             <h2 class="section-title">Đánh giá từ khách hàng</h2>
             <div class="testimonials-container">
+                <!-- Các đánh giá sẽ được thêm vào đây -->
                 <div class="testimonial-card fade-in"><p>"Dịch vụ tuyệt vời, giá cả hợp lý. Anh Tường rất nhiệt tình và uy tín!"</p></div>
                 <div class="testimonial-card fade-in"><p>"Mua Google One rất tiện lợi, setup nhanh chóng. Sẽ ủng hộ tiếp!"</p></div>
                 <div class="testimonial-card fade-in"><p>"Perplexity Pro hoạt động perfect, giá rẻ hơn mua trực tiếp nhiều."</p></div>
             </div>
             <div class="review-action">
-                <a href="#contact" class="btn btn--primary">Thêm đánh giá của bạn</a>
+                <button id="add-review-btn" class="btn btn--primary">Thêm đánh giá của bạn</button>
             </div>
         </div>
     </section>
 
+    <!-- Phần Liên hệ -->
     <section id="contact" class="section">
         <div class="container">
             <h2 class="section-title">Liên hệ</h2>
@@ -178,6 +185,7 @@
         </div>
     </section>
 
+    <!-- Phần Thanh toán -->
     <section class="payment" id="payment">
         <div class="container">
             <h2 class="section-title">Phương Thức Thanh Toán</h2>
@@ -200,12 +208,24 @@
         </div>
     </section>
 
+    <!-- Chân trang -->
     <footer class="footer">
         <p>&copy; 2025 Lê Ngọc Tường. All rights reserved.</p>
     </footer>
+
+    <!-- Modal cho Form -->
+    <div id="form-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="modal-body">
+                <!-- Nội dung form sẽ được chèn vào đây bởi JavaScript -->
+            </div>
+            <div id="modal-message" class="modal-message"></div>
+        </div>
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
-
